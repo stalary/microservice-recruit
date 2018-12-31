@@ -1,0 +1,28 @@
+server:
+  port: 10002
+  max-http-header-size: 8192
+spring:
+  application:
+    name: pf-outside
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  redis:
+    host: 47.94.248.38
+    timeout: 5000ms
+    port: 6379
+  mail:
+    # 邮箱服务器地址，这里使用的是163.com的邮件服务器
+    host: smtp.163.com
+    # 在163.com注册的用户名，注意这里不需要@163.com后缀
+    username: userscenter@163.com
+    # 在163.com使用的授权码(关闭授权码时使用密码)，需要开启POP3/SMTP服务
+    password: li1979101
+    port: 465
+    default-encoding: UTF-8
+user:
+  server: localhost:10000
+logging:
+  level:
+    com.stalary.pf.gateway.client: DEBUG # feign日志

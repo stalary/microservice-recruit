@@ -1,0 +1,12 @@
+server:
+  port: 10004
+  max-http-header-size: 8192
+spring:
+  application:
+    name: pf-consumer
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+gateway:
+  server: localhost:10000

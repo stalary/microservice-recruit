@@ -1,0 +1,35 @@
+server:
+  port: 10000
+  user: http://usercenter.stalary.com
+  debug: true
+  max-http-header-size: 8192
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: host_route
+        uri: http://localhost:10002
+        predicates:
+        - Path=/pf-outside/**
+        filters:
+        - StripPrefix=1
+      - id: host_route
+        uri: http://localhost:10001
+        predicates:
+        - Path=/pf-push/**
+        filters:
+        - StripPrefix=1
+      - id: host_route
+          uri: http://localhost:10003
+          predicates:
+          - Path=/message/**
+          filters:
+          - StripPrefix=1
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  application:
+    name: pf-gateway
+logging:
+  level:
+    com.stalary.pf.gateway.client: DEBUG # feign日志
