@@ -20,11 +20,11 @@ spring:
         filters:
         - StripPrefix=1
       - id: host_route
-          uri: http://localhost:10003
-          predicates:
-          - Path=/message/**
-          filters:
-          - StripPrefix=1
+        uri: http://localhost:10003
+        predicates:
+        - Path=/message/**
+        filters:
+        - StripPrefix=1
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848

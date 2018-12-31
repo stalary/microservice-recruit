@@ -14,8 +14,6 @@ import lombok.NoArgsConstructor;
  * @field data 数据
  **/
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class ResponseMessage<T> {
 
     private int code;
@@ -30,6 +28,16 @@ public class ResponseMessage<T> {
         this.code = code;
         this.msg = msg;
         this.success = success;
+    }
+
+    public ResponseMessage(int code, String msg, boolean success, T data) {
+        this.code = code;
+        this.msg = msg;
+        this.success = success;
+        this.data = data;
+    }
+
+    public ResponseMessage() {
     }
 
     public static ResponseMessage enumError(ResultEnum resultEnum) {
