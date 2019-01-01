@@ -9,8 +9,6 @@ import com.stalary.pf.resume.data.constant.RedisKeys;
 import com.stalary.pf.resume.data.dto.*;
 import com.stalary.pf.resume.data.entity.ResumeEntity;
 import com.stalary.pf.resume.data.entity.SkillEntity;
-import com.stalary.pf.resume.data.vo.ReceiveInfo;
-import com.stalary.pf.resume.data.vo.SendInfo;
 import com.stalary.pf.resume.holder.UserHolder;
 import com.stalary.pf.resume.repo.ResumeRepo;
 import com.stalary.pf.resume.repo.SkillRepo;
@@ -23,8 +21,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
