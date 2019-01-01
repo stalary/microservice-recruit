@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.Resource;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -35,12 +36,8 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class AuthFilter implements GlobalFilter, Ordered {
 
-    private static UserCenterClient userCenterClient;
-
-    @Autowired
-    private void setClientService(UserCenterClient userCenterClient) {
-        AuthFilter.userCenterClient = userCenterClient;
-    }
+    @Resource
+    private UserCenterClient userCenterClient;
 
     private String projectKey;
 

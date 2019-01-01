@@ -33,12 +33,15 @@ import java.lang.reflect.Method;
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 
-    private static ClientService clientService;
+//    private static ClientService clientService;
+//
+//    @Autowired
+//    private void setClientService(ClientService clientService) {
+//        LoginInterceptor.clientService = clientService;
+//    }
 
     @Autowired
-    private void setClientService(ClientService clientService) {
-        LoginInterceptor.clientService = clientService;
-    }
+    private ClientService clientService;
 
     @Resource(name = "stringRedisTemplate")
     private StringRedisTemplate redis;
@@ -56,6 +59,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             String uri = request.getRequestURI();
             String token = getToken(getAuthHeader(request));
             User user = clientService.getUser(token);
+            System.out.println("进入");
             if (user == null) {
                 // token无法获取到用户信息代表未登陆
                 throw new MyException(ResultEnum.NEED_LOGIN);

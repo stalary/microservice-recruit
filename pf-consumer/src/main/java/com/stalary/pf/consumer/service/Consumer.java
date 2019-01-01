@@ -33,20 +33,17 @@ import static com.stalary.pf.consumer.data.Constant.*;
 @Slf4j
 public class Consumer implements MQConsumer {
 
-//    private static ResumeClient resumeClient;
-//
-//    private static PushClient pushClient;
-//
-//    private static MessageClient messageClient;
-//
-//    public Consumer(ResumeClient resumeClient, PushClient pushClient, MessageClient messageClient) {
-//        Consumer.resumeClient = resumeClient;
-//        Consumer.pushClient = pushClient;
-//        Consumer.messageClient = messageClient;
-//    }
+    private static ResumeClient resumeClient;
 
-    @Autowired
-    private ResumeClient resumeClient;
+    private static PushClient pushClient;
+
+    private static MessageClient messageClient;
+
+    public Consumer(ResumeClient resumeClient, PushClient pushClient, MessageClient messageClient) {
+        Consumer.resumeClient = resumeClient;
+        Consumer.pushClient = pushClient;
+        Consumer.messageClient = messageClient;
+    }
 
     @Override
     @MQListener(topics = {SEND_RESUME, RECEIVE_RESUME, HANDLE_RESUME})
@@ -65,14 +62,14 @@ public class Consumer implements MQConsumer {
             // 处理投递简历
             resumeClient.handleResume(resume);
         } else if (SEND_RESUME.equals(topic)) {
-//            SendResume resume = JSONObject.parseObject(message, SendResume.class);
-//            // 存储投递的消息通知(系统发送)
-//            Long userId = resume.getUserId();
-//            Message m = new Message(0L, userId, "简历投递成功", resume.getTitle() + "简历投递成功", false);
-//            messageClient.saveMessage(m);
-//            // 统计通知未读的数量
-//            int count = messageService.findNotRead(userId).size();
-//            webSocketService.sendMessage(userId, "" + count);
+            SendResume resume = JSONObject.parseObject(message, SendResume.class);
+            // 存储投递的消息通知(系统发送)
+            Long userId = resume.getUserId();
+            Message m = new Message(0L, userId, "简历投递成功", resume.getTitle() + "简历投递成功", false);
+            messageClient.saveMessage(m);
+            // 统计通知未读的数量
+            int count = messageService.findNotRead(userId).size();
+            webSocketService.sendMessage(userId, "" + count);
         } else if (RECEIVE_RESUME.equals(topic)) {
 //            SendResume resume = JSONObject.parseObject(message, SendResume.class);
 //            // 存储收到简历的消息通知(系统发送)
