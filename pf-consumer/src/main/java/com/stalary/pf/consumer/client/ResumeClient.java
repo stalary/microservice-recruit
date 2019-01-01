@@ -1,7 +1,10 @@
 package com.stalary.pf.consumer.client;
 
+import com.stalary.pf.consumer.data.SendResume;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * @author Stalary
@@ -11,4 +14,7 @@ import org.springframework.stereotype.Component;
 @FeignClient(name = "resume", url = "${gateway.server}")
 @Component
 public interface ResumeClient {
+
+    @PostMapping("/resume/handle")
+    void handleResume(@RequestBody SendResume sendResume);
 }

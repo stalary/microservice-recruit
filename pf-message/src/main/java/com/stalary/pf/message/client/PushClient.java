@@ -20,6 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Component
 public interface PushClient {
 
-    @GetMapping("/message/send")
+    @GetMapping("/push/send")
     void sendMessage(@RequestParam("userId") Long userId, @RequestParam("message") String message);
 }

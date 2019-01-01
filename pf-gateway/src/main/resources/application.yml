@@ -22,7 +22,7 @@ spring:
       - id: host_route
         uri: http://localhost:10003
         predicates:
-        - Path=/message/**
+        - Path=/push/**
         filters:
         - StripPrefix=1
     nacos:

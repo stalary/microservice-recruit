@@ -7,6 +7,8 @@ package com.stalary.pf.consumer.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * PushClient
@@ -17,4 +19,7 @@ import org.springframework.stereotype.Component;
 @FeignClient(name = "push", url = "${gateway.server}")
 @Component
 public interface PushClient {
+
+    @GetMapping("/push/send")
+    void sendMessage(@RequestParam("userId") Long userId, @RequestParam("message") String message);
 }

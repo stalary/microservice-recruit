@@ -5,8 +5,11 @@
  */
 package com.stalary.pf.consumer.client;
 
+import com.stalary.pf.consumer.data.Message;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * MessageClient
@@ -17,4 +20,7 @@ import org.springframework.stereotype.Component;
 @FeignClient(name = "message", url = "${gateway.server}")
 @Component
 public interface MessageClient {
+
+    @PostMapping("/message/save")
+    void saveMessage(@RequestBody Message message);
 }

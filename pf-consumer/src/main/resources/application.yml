@@ -10,3 +10,4 @@ spring:
         server-addr: 127.0.0.1:8848
 gateway:
   server: localhost:10000
+debug: true
