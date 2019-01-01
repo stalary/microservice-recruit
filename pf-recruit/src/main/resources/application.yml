@@ -1,0 +1,20 @@
+server:
+  port: 10006
+  max-http-header-size: 8192
+spring:
+  application:
+    name: pf-recruit
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  datasource:
+    url: jdbc:mysql://47.94.248.38:3306/personfilter?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: li197910
+    driver-class-name: com.mysql.jdbc.Driver
+gateway:
+  server: localhost:10000
+logging:
+  level:
+    com.stalary.pf.recruit.client: DEBUG # feign日志

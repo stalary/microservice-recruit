@@ -1,8 +1,8 @@
 package com.stalary.pf.user.interceptor;
 
 import com.stalary.pf.user.annotation.LoginRequired;
-import com.stalary.pf.user.data.Constant;
-import com.stalary.pf.user.data.RedisKeys;
+import com.stalary.pf.user.data.constant.Constant;
+import com.stalary.pf.user.data.constant.RedisKeys;
 import com.stalary.pf.user.data.dto.User;
 import com.stalary.pf.user.exception.MyException;
 import com.stalary.pf.user.exception.ResultEnum;
@@ -32,16 +32,12 @@ import java.lang.reflect.Method;
 @Component
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
-
-//    private static ClientService clientService;
-//
-//    @Autowired
-//    private void setClientService(ClientService clientService) {
-//        LoginInterceptor.clientService = clientService;
-//    }
+    private static ClientService clientService;
 
     @Autowired
-    private ClientService clientService;
+    private void setClientService(ClientService clientService) {
+        LoginInterceptor.clientService = clientService;
+    }
 
     @Resource(name = "stringRedisTemplate")
     private StringRedisTemplate redis;

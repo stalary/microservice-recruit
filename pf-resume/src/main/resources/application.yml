@@ -1,0 +1,24 @@
+server:
+  port: 10007
+  max-http-header-size: 8192
+spring:
+  application:
+    name: pf-resume
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  data:
+    mongodb:
+      host: 47.94.248.38
+      port: 27017
+      database: personfilter
+  redis:
+    host: 47.94.248.38
+    timeout: 5000ms
+    port: 6379
+gateway:
+  server: localhost:10000
+logging:
+  level:
+    com.stalary.pf.resume.client: DEBUG # feign日志

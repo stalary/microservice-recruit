@@ -2,8 +2,8 @@ package com.stalary.pf.user.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.stalary.pf.user.client.UserCenterClient;
-import com.stalary.pf.user.data.Constant;
-import com.stalary.pf.user.data.RedisKeys;
+import com.stalary.pf.user.data.constant.Constant;
+import com.stalary.pf.user.data.constant.RedisKeys;
 import com.stalary.pf.user.data.dto.Applicant;
 import com.stalary.pf.user.data.dto.HR;
 import com.stalary.pf.user.data.dto.ProjectInfo;

@@ -1,4 +1,4 @@
-package com.stalary.pf.consumer.data;
+package com.stalary.pf.resume.data.vo;
 
 import lombok.Data;
 
@@ -25,6 +25,9 @@ public class ResponseMessage<T> {
         this.code = code;
         this.msg = msg;
         this.success = success;
+    }
+
+    public ResponseMessage() {
     }
 
     public ResponseMessage(int code, String msg, boolean success, T data) {

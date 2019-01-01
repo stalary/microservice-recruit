@@ -1,4 +1,4 @@
-package com.stalary.pf.consumer.data;
+package com.stalary.pf.consumer.data.constant;
 
 /**
  * Constant

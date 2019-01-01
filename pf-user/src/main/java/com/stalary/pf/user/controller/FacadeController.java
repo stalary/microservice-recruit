@@ -7,7 +7,7 @@ package com.stalary.pf.user.controller;
 
 import com.stalary.pf.user.annotation.LoginRequired;
 import com.stalary.pf.user.client.MessageClient;
-import com.stalary.pf.user.data.Constant;
+import com.stalary.pf.user.data.constant.Constant;
 import com.stalary.pf.user.data.dto.Applicant;
 import com.stalary.pf.user.data.dto.HR;
 import com.stalary.pf.user.data.dto.UploadAvatar;
@@ -192,5 +192,36 @@ public class FacadeController {
         } else {
             return ResponseMessage.failedMessage("上传头像失败");
         }
+    }
+
+    @GetMapping("/email")
+    public ResponseMessage getEmail(
+            @RequestParam Long userId) {
+        return ResponseMessage.successMessage(clientService.getUser(userId).getEmail());
+    }
+
+    @GetMapping("/userId")
+    public ResponseMessage getUserById(@RequestParam Long userId) {
+        return ResponseMessage.successMessage(clientService.getUser(userId));
+    }
+
+    /**
+     * @method getSendList 查看个人投递列表
+     * @return SendInfo 投递信息
+     **/
+    @GetMapping("/send")
+    @LoginRequired
+    public ResponseMessage getSendList() {
+        return ResponseMessage.successMessage(userInfoService.getSendList());
+    }
+
+    /**
+     * @method getReceiveList 查看获取的简历列表
+     * @return
+     **/
+    @GetMapping("/receive")
+    @LoginRequired
+    public ResponseMessage getReceiveList() {
+        return ResponseMessage.successMessage(userInfoService.getReceiveList());
     }
 }

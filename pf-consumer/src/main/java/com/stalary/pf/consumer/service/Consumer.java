@@ -9,18 +9,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.stalary.lightmqclient.MQListener;
 import com.stalary.lightmqclient.MessageDto;
 import com.stalary.lightmqclient.facade.MQConsumer;
-import com.stalary.pf.consumer.client.MessageClient;
-import com.stalary.pf.consumer.client.PushClient;
-import com.stalary.pf.consumer.client.ResumeClient;
-import com.stalary.pf.consumer.data.Message;
-import com.stalary.pf.consumer.data.SendResume;
+import com.stalary.pf.consumer.client.*;
+import com.stalary.pf.consumer.data.dto.*;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-
-import static com.stalary.pf.consumer.data.Constant.*;
+import static com.stalary.pf.consumer.data.constant.Constant.*;
 
 
 /**
@@ -39,10 +33,21 @@ public class Consumer implements MQConsumer {
 
     private static MessageClient messageClient;
 
-    public Consumer(ResumeClient resumeClient, PushClient pushClient, MessageClient messageClient) {
+    private static RecruitClient recruitClient;
+
+    private static UserClient userClient;
+
+    private static OutsideClient outsideClient;
+
+    public Consumer(ResumeClient resumeClient, PushClient pushClient,
+                    MessageClient messageClient, RecruitClient recruitClient,
+                    UserClient userClient, OutsideClient outsideClient) {
         Consumer.resumeClient = resumeClient;
         Consumer.pushClient = pushClient;
         Consumer.messageClient = messageClient;
+        Consumer.recruitClient = recruitClient;
+        Consumer.userClient = userClient;
+        Consumer.outsideClient = outsideClient;
     }
 
     @Override
@@ -68,29 +73,25 @@ public class Consumer implements MQConsumer {
             Message m = new Message(0L, userId, "简历投递成功", resume.getTitle() + "简历投递成功", false);
             messageClient.saveMessage(m);
             // 统计通知未读的数量
-            int count = messageService.findNotRead(userId).size();
-            webSocketService.sendMessage(userId, "" + count);
+            int count = messageClient.getNotReadCount(userId).getData();
+            pushClient.sendMessage(userId, "" + count);
         } else if (RECEIVE_RESUME.equals(topic)) {
-//            SendResume resume = JSONObject.parseObject(message, SendResume.class);
-//            // 存储收到简历的消息通知(系统发送)
-//            Long recruitId = resume.getRecruitId();
-//            Long userId = resume.getUserId();
-//            Recruit recruit = recruitService.findOne(recruitId);
-//            UserInfo userInfo = userService.findOne(userId);
-//            Long hrId = recruit.getHrId();
-//            User hr = clientService.getUser(hrId);
-//            Message m = new Message(0L, hrId, resume.getTitle() + "收到简历", resume.getTitle() + "收到来自" + userInfo.getSchool() + "的" + userInfo.getNickname() + "的简历", false);
-//            messageService.save(m);
-//            mailService.sendResume(hr.getEmail(), resume.getTitle() + "收到来自" + userInfo.getSchool() + "的" + userInfo.getNickname() + "的简历");
-//            // 统计通知未读的数量
-//            int count = messageService.findNotRead(hrId).size();
-//            webSocketService.sendMessage(hrId, "" + count);
+            SendResume resume = JSONObject.parseObject(message, SendResume.class);
+            // 存储收到简历的消息通知(系统发送)
+            Long recruitId = resume.getRecruitId();
+            Long userId = resume.getUserId();
+            Recruit recruit = recruitClient.getRecruit(recruitId).getData();
+            UserInfo userInfo = userClient.getUserInfo(userId).getData();
+            Long hrId = recruit.getHrId();
+            Message m = new Message(0L, hrId, resume.getTitle() + "收到简历", resume.getTitle() + "收到来自" + userInfo.getSchool() + "的" + userInfo.getNickname() + "的简历", false);
+            messageClient.saveMessage(m);
+            outsideClient.sendEmail(new Email(userClient.getEmail(hrId).getData(), "收到投递简历", resume.getTitle() + "收到来自" + userInfo.getSchool() + "的" + userInfo.getNickname() + "的简历"));
+            // 统计通知未读的数量
+            int count = messageClient.getNotReadCount(hrId).getData();
+            pushClient.sendMessage(hrId, "" + count);
         }
         long endTime = System.currentTimeMillis();
         log.info("Consumer.time=" + (endTime - startTime));
     }
 
-    public static void main(String[] args) {
-        System.out.println(JSONObject.toJSONString(new SendResume(1L, 1L, "", null)));
-    }
 }

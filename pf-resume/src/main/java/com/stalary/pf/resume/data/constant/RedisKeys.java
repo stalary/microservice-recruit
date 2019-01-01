@@ -1,4 +1,4 @@
-package com.stalary.pf.user.data;
+package com.stalary.pf.resume.data.constant;
 
 /**
  * RedisKeys

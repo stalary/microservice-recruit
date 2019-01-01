@@ -1,4 +1,4 @@
-package com.stalary.pf.consumer.data;
+package com.stalary.pf.user.data.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -8,23 +8,26 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * @model SendResume
- * @description 投递简历对象
- * @field userId 用户id
- * @field recruitId 岗位id
+ * @model ReceiveResume
+ * @description 接收简历对象
  * @field title 岗位标题
- * @field time 投递时间
+ * @field name 用户昵称
+ * @field userId 用户id
+ * @field rate 简历匹配度
+ * @field time 接收时间
  **/
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SendResume {
+public class ReceiveResume {
+
+    private String title;
+
+    private String name;
 
     private Long userId;
 
-    private Long recruitId;
-
-    private String title;
+    private Integer rate;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime time;

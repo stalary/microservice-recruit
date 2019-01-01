@@ -1,4 +1,4 @@
-package com.stalary.pf.consumer.data;
+package com.stalary.pf.consumer.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

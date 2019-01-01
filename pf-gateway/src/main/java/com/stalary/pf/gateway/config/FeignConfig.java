@@ -1,9 +1,3 @@
-/**
- * @(#)FeignConfig.java, 2018-10-17.
- * <p>
- * Copyright 2018 Youdao, Inc. All rights reserved.
- * YOUDAO PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
 package com.stalary.pf.gateway.config;
 
 import feign.Logger;

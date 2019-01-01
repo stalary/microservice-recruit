@@ -16,10 +16,22 @@
     <description>recruit system</description>
 
     <modules>
-        <module>pf-outside</module>
-        <module>pf-push</module>
-        <module>pf-message</module>
+        <!-- 网关服务 -->
         <module>pf-gateway</module>
+        <!-- 外部服务 -->
+        <module>pf-outside</module>
+        <!-- 用户服务 -->
+        <module>pf-user</module>
+        <!-- 招聘服务 -->
+        <module>pf-recruit</module>
+        <!-- 简历服务 -->
+        <module>pf-resume</module>
+        <!-- 推送服务 -->
+        <module>pf-push</module>
+        <!-- 消息服务 -->
+        <module>pf-message</module>
+        <!-- 消费服务 -->
+        <module>pf-consumer</module>
     </modules>
     <dependencyManagement>
         <dependencies>

@@ -32,11 +32,7 @@ public class MailService {
     @Value("${spring.mail.host}")
     private String host;
 
-    public void sendResume(String to, String message) {
-        sendEmil(to, "收到投递简历", message);
-    }
-
-    public  void sendEmil(String to,String subject, String message) {
+    public void sendEmail(String to, String subject, String message) {
         try {
             Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
             //设置邮件会话参数

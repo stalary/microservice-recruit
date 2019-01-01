@@ -10,4 +10,14 @@ spring:
         server-addr: 127.0.0.1:8848
 gateway:
   server: localhost:10000
-debug: true
+logging:
+  level:
+    com.stalary.pf.consumer.client: DEBUG # feign日志
+com:
+  stalary:
+    lightmq:
+      consumer: true
+      order: true
+      group: pf
+      auto: true
+      url: 120.24.5.178:8001
