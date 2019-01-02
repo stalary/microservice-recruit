@@ -11,6 +11,7 @@ import com.stalary.pf.user.service.ClientService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -32,12 +33,8 @@ import java.lang.reflect.Method;
 @Component
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
-    private static ClientService clientService;
-
-    @Autowired
-    private void setClientService(ClientService clientService) {
-        LoginInterceptor.clientService = clientService;
-    }
+    @Resource
+    private ClientService clientService;
 
     @Resource(name = "stringRedisTemplate")
     private StringRedisTemplate redis;
@@ -55,7 +52,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             String uri = request.getRequestURI();
             String token = getToken(getAuthHeader(request));
             User user = clientService.getUser(token);
-            System.out.println("进入");
             if (user == null) {
                 // token无法获取到用户信息代表未登陆
                 throw new MyException(ResultEnum.NEED_LOGIN);

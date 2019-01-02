@@ -8,8 +8,6 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
-gateway:
-  server: localhost:10000
 logging:
   level:
     com.stalary.pf.consumer.client: DEBUG # feign日志
@@ -18,6 +16,18 @@ com:
     lightmq:
       consumer: true
       order: true
-      group: pf
+      group: master
       auto: true
-      url: 120.24.5.178:8001
+      url: http://120.24.5.178:8001
+push:
+  server: localhost:10001
+outside:
+  server: localhost:10002
+message:
+  server: localhost:10003
+user:
+  server: localhost:10005
+recruit:
+  server: localhost:10006
+resume:
+  server: localhost:10007

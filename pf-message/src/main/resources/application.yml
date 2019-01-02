@@ -13,5 +13,16 @@ spring:
     username: root
     password: li197910
     driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      minimum-idle: 3 # 最小空闲连接数
+      pool-name: message-pool
+      connection-test-query: SELECT 1 # 测试连接
+      max-lifetime: 86430000 # 存活时间
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: validate # 校验表结构
+    show-sql: false
 push:
-  server: localhost:10000
+  server: localhost:10001

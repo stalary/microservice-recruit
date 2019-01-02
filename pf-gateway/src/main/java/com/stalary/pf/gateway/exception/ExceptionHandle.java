@@ -1,6 +1,6 @@
-package com.stalary.pf.recruit.exception;
+package com.stalary.pf.gateway.exception;
 
-import com.stalary.pf.recruit.data.vo.ResponseMessage;
+import com.stalary.pf.gateway.data.ResponseMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,7 +23,7 @@ public class ExceptionHandle {
             return ResponseMessage.error(myException.getCode(), myException.getMessage());
         } else {
             log.error("[系统异常]", e);
-            return ResponseMessage.error(500, "recruit 运行时异常！");
+            return ResponseMessage.error(500, "gateway 运行时异常！");
         }
     }
 }

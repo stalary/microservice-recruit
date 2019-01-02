@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author lirongqian
  * @since 2018/12/31
  */
-@FeignClient(name = "message", url = "${gateway.server}")
+@FeignClient(name = "message", url = "${message.server}")
 @Component
 public interface MessageClient {
 

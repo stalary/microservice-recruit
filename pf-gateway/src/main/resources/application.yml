@@ -8,23 +8,25 @@ spring:
     gateway:
       routes:
       - id: host_route
-        uri: http://localhost:10002
-        predicates:
-        - Path=/pf-outside/**
-        filters:
-        - StripPrefix=1
-      - id: host_route
         uri: http://localhost:10001
         predicates:
-        - Path=/pf-push/**
-        filters:
-        - StripPrefix=1
+        - Path=/push/**
+      - id: host_route
+        uri: http://localhost:10002
+        predicates:
+        - Path=/outside/**
       - id: host_route
         uri: http://localhost:10003
         predicates:
-        - Path=/push/**
-        filters:
-        - StripPrefix=1
+        - Path=/message/**
+      - id: host_route
+        uri: http://localhost:10004
+        predicates:
+        - Path=/message/**
+      - id: host_route
+        uri: http://localhost:10007
+        predicates:
+        - Path=/resume/**
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
@@ -33,3 +35,5 @@ spring:
 logging:
   level:
     com.stalary.pf.gateway.client: DEBUG # feign日志
+pf:
+  authList: /message/user/get, /message/read, /message/user/send

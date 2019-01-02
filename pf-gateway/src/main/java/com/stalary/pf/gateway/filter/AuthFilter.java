@@ -8,12 +8,14 @@ package com.stalary.pf.gateway.filter;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import com.stalary.pf.gateway.client.UserCenterClient;
+import com.stalary.pf.gateway.config.CoreConfig;
 import com.stalary.pf.gateway.data.ProjectInfo;
 import com.stalary.pf.gateway.data.ResponseMessage;
 import com.stalary.pf.gateway.data.User;
+import com.stalary.pf.gateway.exception.MyException;
+import com.stalary.pf.gateway.exception.ResultEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -39,6 +41,9 @@ public class AuthFilter implements GlobalFilter, Ordered {
     @Resource
     private UserCenterClient userCenterClient;
 
+    @Resource
+    private CoreConfig coreConfig;
+
     private String projectKey;
 
     /** 存储用户id缓存 **/
@@ -56,7 +61,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
                 }
             });
 
-    // todo: 待注册需要登陆的接口，直接进行过滤，配置使用nacos
+    // todo:配置使用nacos
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String token = Optional.ofNullable(exchange.getRequest().getHeaders().getFirst("Authorization")).orElse("");
@@ -67,6 +72,11 @@ public class AuthFilter implements GlobalFilter, Ordered {
             }
         }
         String userId = Optional.ofNullable(userIdCache.get(token)).orElse("");
+        // 对需要登陆的接口进行验证
+        String path = exchange.getRequest().getPath().pathWithinApplication().value();
+        if (coreConfig.getAuthList().contains(path) && StringUtils.isEmpty(userId)) {
+            throw new MyException(ResultEnum.NEED_LOGIN);
+        }
         ServerHttpRequest host = exchange.getRequest().mutate().header("userId", userId).build();
         ServerWebExchange build = exchange.mutate().request(host).build();
         return chain.filter(build);

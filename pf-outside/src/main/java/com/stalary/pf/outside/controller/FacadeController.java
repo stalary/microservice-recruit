@@ -24,6 +24,7 @@ import javax.annotation.Resource;
  * @since 2018/12/31
  */
 @RestController
+@RequestMapping("/outside")
 public class FacadeController {
 
     @Resource

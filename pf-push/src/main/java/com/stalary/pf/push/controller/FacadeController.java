@@ -7,6 +7,7 @@ package com.stalary.pf.push.controller;
 
 import com.stalary.pf.push.service.WebSocketService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2018/12/31
  */
 @RestController
+@RequestMapping("/push")
 public class FacadeController {
 
     @Resource
@@ -27,9 +29,8 @@ public class FacadeController {
 
     @GetMapping("/send")
     public void sendMessage(
-            HttpServletRequest request,
+            @RequestParam Long userId,
             @RequestParam String message) {
-        String userId = request.getHeader("userId");
-        webSocketService.sendMessage(Long.valueOf(userId), message);
+        webSocketService.sendMessage(userId, message);
     }
 }

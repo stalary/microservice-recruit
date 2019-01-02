@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @description
  * @date 2019/1/1
  */
-@FeignClient(name = "recruit", url = "${gateway.server}")
+@FeignClient(name = "recruit", url = "${recruit.server}")
 @Component
 public interface RecruitClient {
 

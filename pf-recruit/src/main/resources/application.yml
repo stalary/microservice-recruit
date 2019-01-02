@@ -13,8 +13,14 @@ spring:
     username: root
     password: li197910
     driver-class-name: com.mysql.jdbc.Driver
-gateway:
-  server: localhost:10000
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: update
+    show-sql: false
 logging:
   level:
     com.stalary.pf.recruit.client: DEBUG # feign日志
+user:
+  server: localhost:10005

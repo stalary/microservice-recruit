@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @description
  * @date 2018/12/31
  */
-@FeignClient(name = "outside", url = "${gateway.server}")
+@FeignClient(name = "outside", url = "${outside.server}")
 @Component
 public interface OutsideClient {
 

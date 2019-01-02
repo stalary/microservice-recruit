@@ -12,6 +12,7 @@ import com.stalary.lightmqclient.facade.MQConsumer;
 import com.stalary.pf.consumer.client.*;
 import com.stalary.pf.consumer.data.dto.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.stalary.pf.consumer.data.constant.Constant.*;
@@ -29,24 +30,43 @@ public class Consumer implements MQConsumer {
 
     private static ResumeClient resumeClient;
 
+    @Autowired
+    public void setResumeClient(ResumeClient resumeClient) {
+        Consumer.resumeClient = resumeClient;
+    }
+
     private static PushClient pushClient;
+
+    @Autowired
+    public void setPushClient(PushClient pushClient) {
+        Consumer.pushClient = pushClient;
+    }
 
     private static MessageClient messageClient;
 
+    @Autowired
+    public void setMessageClient(MessageClient messageClient) {
+        Consumer.messageClient = messageClient;
+    }
+
     private static RecruitClient recruitClient;
+
+    @Autowired
+    private void setRecruitClient(RecruitClient recruitClient) {
+        Consumer.recruitClient = recruitClient;
+    }
 
     private static UserClient userClient;
 
+    @Autowired
+    private void setUserClient(UserClient userClient) {
+        Consumer.userClient = userClient;
+    }
+
     private static OutsideClient outsideClient;
 
-    public Consumer(ResumeClient resumeClient, PushClient pushClient,
-                    MessageClient messageClient, RecruitClient recruitClient,
-                    UserClient userClient, OutsideClient outsideClient) {
-        Consumer.resumeClient = resumeClient;
-        Consumer.pushClient = pushClient;
-        Consumer.messageClient = messageClient;
-        Consumer.recruitClient = recruitClient;
-        Consumer.userClient = userClient;
+    @Autowired
+    private void setOutsideClient(OutsideClient outsideClient) {
         Consumer.outsideClient = outsideClient;
     }
 

@@ -17,8 +17,10 @@ spring:
     host: 47.94.248.38
     timeout: 5000ms
     port: 6379
-gateway:
-  server: localhost:10000
 logging:
   level:
     com.stalary.pf.resume.client: DEBUG # feign日志
+user:
+  server: localhost:10005
+recruit:
+  server: localhost:10006

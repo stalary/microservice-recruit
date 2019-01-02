@@ -51,11 +51,11 @@ public class MessageService {
     public void read(Long id, Long userId) {
         repo.read(id);
         int count = findNotRead(userId).size();
-        pushClient.sendMessage(userId, "" + count);
+        pushClient.sendMessage(userId, String.valueOf(count));
     }
 
     public void sendCount(Long userId) {
         int count = findNotRead(userId).size();
-        pushClient.sendMessage(userId, "" + count);
+        pushClient.sendMessage(userId, String.valueOf(count));
     }
 }

@@ -30,6 +30,7 @@ import java.util.Map;
  * @since 2019/01/01
  */
 @RestController
+@RequestMapping("/user")
 public class FacadeController {
 
     @Resource

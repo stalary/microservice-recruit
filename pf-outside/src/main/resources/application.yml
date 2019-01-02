@@ -22,7 +22,7 @@ spring:
     port: 465
     default-encoding: UTF-8
 user:
-  server: localhost:10000
+  server: localhost:10005
 logging:
   level:
     com.stalary.pf.gateway.client: DEBUG # feign日志

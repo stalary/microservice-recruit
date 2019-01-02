@@ -1,6 +1,5 @@
 package com.stalary.pf.message.controller;
 
-import com.stalary.pf.message.annotation.LoginRequired;
 import com.stalary.pf.message.data.dto.ReadMessage;
 import com.stalary.pf.message.data.entity.MessageEntity;
 import com.stalary.pf.message.data.vo.ResponseMessage;
@@ -20,6 +19,7 @@ import javax.annotation.Resource;
  */
 @RestController
 @Slf4j
+@RequestMapping("/message")
 public class FacadeController {
 
     @Resource
@@ -42,7 +42,6 @@ public class FacadeController {
      * @method getMessage 获取一个用户接收的站内信
      **/
     @GetMapping("/user/get")
-    @LoginRequired
     public ResponseMessage getMessage() {
         Long userId = UserHolder.get();
         return ResponseMessage.successMessage(messageService.findByToId(userId));
@@ -53,7 +52,6 @@ public class FacadeController {
      * @method readMessage 已读站内信
      **/
     @PostMapping("/read")
-    @LoginRequired
     public ResponseMessage readMessage(
             @RequestBody ReadMessage readMessage) {
         messageService.read(readMessage.getId(), readMessage.getUserId());
@@ -66,7 +64,6 @@ public class FacadeController {
      * @method getSendMessage 获取一个用户发送的站内信
      **/
     @GetMapping("/user/send")
-    @LoginRequired
     public ResponseMessage getSendMessage() {
         Long userId = UserHolder.get();
         return ResponseMessage.successMessage(messageService.findByFromId(userId));
