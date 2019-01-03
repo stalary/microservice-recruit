@@ -8,23 +8,32 @@ spring:
     gateway:
       routes:
       - id: host_route
-        uri: http://localhost:10001
+        uri: http://localhost:10011
         predicates:
         - Path=/push/**
       - id: host_route
-        uri: http://localhost:10002
+        uri: http://localhost:10012
         predicates:
         - Path=/outside/**
       - id: host_route
-        uri: http://localhost:10003
+        uri: http://localhost:10013
         predicates:
         - Path=/message/**
       - id: host_route
-        uri: http://localhost:10004
+        uri: http://localhost:10014
         predicates:
         - Path=/message/**
       - id: host_route
-        uri: http://localhost:10007
+        uri: http://localhost:10015
+        predicates:
+        - Path=/user/**
+      - id: host_route
+        uri: http://localhost:10016
+        predicates:
+        - Path=/recruit/**
+        - Path=/company/**
+      - id: host_route
+        uri: http://localhost:10017
         predicates:
         - Path=/resume/**
     nacos:
@@ -32,6 +41,11 @@ spring:
         server-addr: 127.0.0.1:8848
   application:
     name: pf-gateway
+  zipkin:
+    base-url: http://localhost:10001/
+  sleuth:
+    sampler:
+      probability: 1.0
 logging:
   level:
     com.stalary.pf.gateway.client: DEBUG # feign日志

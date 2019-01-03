@@ -18,6 +18,8 @@
     <modules>
         <!-- 网关服务 -->
         <module>pf-gateway</module>
+        <!-- 链路追踪服务 -->
+        <module>pf-sleuth</module>
         <!-- 外部服务 -->
         <module>pf-outside</module>
         <!-- 用户服务 -->

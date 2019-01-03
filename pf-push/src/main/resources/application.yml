@@ -1,5 +1,5 @@
 server:
-  port: 10001
+  port: 10011
   max-http-header-size: 8192
 spring:
   application:
@@ -8,3 +8,9 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+  zipkin:
+    base-url: http://localhost:10001/
+  sleuth:
+    sampler:
+      probability: 1.0
+

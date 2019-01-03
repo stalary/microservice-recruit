@@ -1,5 +1,5 @@
 server:
-  port: 10007
+  port: 10017
   max-http-header-size: 8192
 spring:
   application:
@@ -8,6 +8,11 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+  zipkin:
+    base-url: http://localhost:10001/
+  sleuth:
+    sampler:
+      probability: 1.0
   data:
     mongodb:
       host: 47.94.248.38
@@ -21,6 +26,6 @@ logging:
   level:
     com.stalary.pf.resume.client: DEBUG # feign日志
 user:
-  server: localhost:10005
+  server: localhost:10015
 recruit:
-  server: localhost:10006
+  server: localhost:10016

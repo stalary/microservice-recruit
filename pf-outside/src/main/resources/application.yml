@@ -1,5 +1,5 @@
 server:
-  port: 10002
+  port: 10012
   max-http-header-size: 8192
 spring:
   application:
@@ -8,6 +8,11 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+  zipkin:
+    base-url: http://localhost:10001/
+  sleuth:
+    sampler:
+      probability: 1.0
   redis:
     host: 47.94.248.38
     timeout: 5000ms
@@ -22,7 +27,7 @@ spring:
     port: 465
     default-encoding: UTF-8
 user:
-  server: localhost:10005
+  server: localhost:10015
 logging:
   level:
     com.stalary.pf.gateway.client: DEBUG # feign日志

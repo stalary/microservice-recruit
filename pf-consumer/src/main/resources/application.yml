@@ -1,5 +1,5 @@
 server:
-  port: 10004
+  port: 10014
   max-http-header-size: 8192
 spring:
   application:
@@ -8,6 +8,11 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+  zipkin:
+    base-url: http://localhost:10001/
+  sleuth:
+    sampler:
+      probability: 1.0
 logging:
   level:
     com.stalary.pf.consumer.client: DEBUG # feign日志
@@ -20,14 +25,14 @@ com:
       auto: true
       url: http://120.24.5.178:8001
 push:
-  server: localhost:10001
+  server: localhost:10011
 outside:
-  server: localhost:10002
+  server: localhost:10012
 message:
-  server: localhost:10003
+  server: localhost:10013
 user:
-  server: localhost:10005
+  server: localhost:10015
 recruit:
-  server: localhost:10006
+  server: localhost:10016
 resume:
-  server: localhost:10007
+  server: localhost:10017

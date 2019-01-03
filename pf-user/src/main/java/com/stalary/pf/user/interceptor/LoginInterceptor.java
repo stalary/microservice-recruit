@@ -80,7 +80,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
      */
     private String getAuthHeader(HttpServletRequest request) {
         String authHeader = request.getHeader(Constant.Authorization);
-        log.info("authHeader" + authHeader);
+        log.info("authHeader " + authHeader);
         return authHeader;
     }
 

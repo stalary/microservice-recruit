@@ -1,5 +1,5 @@
 server:
-  port: 10003
+  port: 10013
   max-http-header-size: 8192
 spring:
   application:
@@ -9,20 +9,25 @@ spring:
       discovery:
         server-addr: 127.0.0.1:8848
   datasource:
-    url: jdbc:mysql://47.94.248.38:3306/personfilter?characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://47.94.248.38:3306/personfilter?autoReconnect=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: li197910
     driver-class-name: com.mysql.jdbc.Driver
     hikari:
       minimum-idle: 3 # 最小空闲连接数
+      maximum-pool-size: 15 # 最大连接数量
       pool-name: message-pool
       connection-test-query: SELECT 1 # 测试连接
-      max-lifetime: 86430000 # 存活时间
   jpa:
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: validate # 校验表结构
+      ddl-auto: update
     show-sql: false
+  zipkin:
+    base-url: http://localhost:10001/
+  sleuth:
+    sampler:
+      probability: 1.0
 push:
-  server: localhost:10001
+  server: localhost:10011

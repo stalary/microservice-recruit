@@ -65,6 +65,9 @@ public class AuthFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String token = Optional.ofNullable(exchange.getRequest().getHeaders().getFirst("Authorization")).orElse("");
+        if (StringUtils.isNotEmpty(token)) {
+            token = token.split(" ")[1];
+        }
         if (StringUtils.isEmpty(projectKey)) {
             ResponseMessage<ProjectInfo> project = userCenterClient.getProjectInfo("leader直聘", "17853149599");
             if (project.isSuccess()) {
