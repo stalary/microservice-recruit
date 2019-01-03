@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import java.util.List;
 
 /**
- * @model ResumeEntity
+ * @model Resume
  * @description 简历对象
  * @field userId 关联的用户id
  * @field name 姓名
@@ -30,7 +30,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ResumeEntity extends BaseEntity {
+public class Resume extends BaseEntity {
 
     private Long userId;
 
@@ -41,7 +41,7 @@ public class ResumeEntity extends BaseEntity {
     private int age;
 
     @DBRef
-    private List<SkillEntity> skills;
+    private List<Skill> skills;
 
     private String school;
 

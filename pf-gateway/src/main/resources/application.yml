@@ -31,6 +31,9 @@ spring:
         uri: http://localhost:10016
         predicates:
         - Path=/recruit/**
+      - id: host_route
+        uri: http://localhost:10016
+        predicates:
         - Path=/company/**
       - id: host_route
         uri: http://localhost:10017
@@ -50,4 +53,4 @@ logging:
   level:
     com.stalary.pf.gateway.client: DEBUG # feign日志
 pf:
-  authList: /message/user/get, /message/read, /message/user/send
+  authList: /message/user/get, /message/user/send, /recruit/hr, /recruit/resume, /outside/avatar

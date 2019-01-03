@@ -1,6 +1,6 @@
-package com.stalary.pf.resume.utils;
+package com.stalary.pf.resume.util;
 
-import com.stalary.pf.resume.data.entity.SeqInfoEntity;
+import com.stalary.pf.resume.data.entity.SeqInfo;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -28,7 +28,7 @@ public class IdUtil {
         FindAndModifyOptions options = new FindAndModifyOptions();
         options.upsert(true);
         options.returnNew(true);
-        SeqInfoEntity seq = mongo.findAndModify(query, update, options, SeqInfoEntity.class);
+        SeqInfo seq = mongo.findAndModify(query, update, options, SeqInfo.class);
         return seq.getSeqId();
     }
 
@@ -40,7 +40,7 @@ public class IdUtil {
      */
     public static Long getNextId(String collName, MongoTemplate mongo) {
         Query query = new Query(Criteria.where("collName").is(collName));
-        SeqInfoEntity seq = mongo.findOne(query, SeqInfoEntity.class);
+        SeqInfo seq = mongo.findOne(query, SeqInfo.class);
         // 当无数据时返回0
         return (seq == null ? 0 : seq.getSeqId()) + 1;
     }

@@ -1,18 +1,16 @@
 package com.stalary.pf.resume.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.stalary.lightmqclient.facade.Producer;
 import com.stalary.pf.resume.client.RecruitClient;
 import com.stalary.pf.resume.client.UserClient;
 import com.stalary.pf.resume.data.constant.Constant;
 import com.stalary.pf.resume.data.constant.RedisKeys;
 import com.stalary.pf.resume.data.dto.*;
-import com.stalary.pf.resume.data.entity.ResumeEntity;
-import com.stalary.pf.resume.data.entity.SkillEntity;
-import com.stalary.pf.resume.holder.UserHolder;
+import com.stalary.pf.resume.data.entity.Resume;
+import com.stalary.pf.resume.data.entity.Skill;
 import com.stalary.pf.resume.repo.ResumeRepo;
 import com.stalary.pf.resume.repo.SkillRepo;
-import com.stalary.pf.resume.utils.IdUtil;
+import com.stalary.pf.resume.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.redis.core.HashOperations;
@@ -33,7 +31,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
-public class ResumeService extends BaseService<ResumeEntity, ResumeRepo> {
+public class ResumeService extends BaseService<Resume, ResumeRepo> {
 
     public ResumeService(ResumeRepo repo) {
         super(repo);
@@ -47,9 +45,6 @@ public class ResumeService extends BaseService<ResumeEntity, ResumeRepo> {
 
     @Resource
     private RecruitClient recruitClient;
-
-    @Resource
-    private Producer producer;
 
     @Resource
     private UserClient userClient;
@@ -83,8 +78,8 @@ public class ResumeService extends BaseService<ResumeEntity, ResumeRepo> {
     /**
      * 保存简历
      */
-    public ResumeEntity saveResume(ResumeEntity resume) {
-        final long resumeId = IdUtil.getNextId(ResumeEntity.class.getSimpleName(), mongo);
+    public Resume saveResume(Resume resume) {
+        final long resumeId = IdUtil.getNextId(Resume.class.getSimpleName(), mongo);
         skillRepo.saveAll(
                 resume.getSkills()
                         .stream()
@@ -99,7 +94,7 @@ public class ResumeService extends BaseService<ResumeEntity, ResumeRepo> {
         return repo.save(resume);
     }
 
-    public ResumeEntity findByUserId(Long userId) {
+    public Resume findByUserId(Long userId) {
         return repo.findByUserId(userId);
     }
 
@@ -110,8 +105,8 @@ public class ResumeService extends BaseService<ResumeEntity, ResumeRepo> {
     public int calculate(Long recruitId, Long userId) {
         Recruit recruit = recruitClient.getRecruit(recruitId).getData();
         List<SkillRule> skillRuleList = recruit.getSkillList();
-        ResumeEntity resume = repo.findByUserId(userId);
-        List<SkillEntity> skillList = resume.getSkills();
+        Resume resume = repo.findByUserId(userId);
+        List<Skill> skillList = resume.getSkills();
         // 求出规则表中总和
         int ruleSum = skillRuleList
                 .stream()
@@ -125,7 +120,7 @@ public class ResumeService extends BaseService<ResumeEntity, ResumeRepo> {
         // 求出简历表中的技能点
         List<String> nameList = skillList
                 .stream()
-                .map(SkillEntity::getName)
+                .map(Skill::getName)
                 .collect(Collectors.toList());
         // 求出技能点交集
         List<String> intersection = nameRuleList
@@ -148,7 +143,7 @@ public class ResumeService extends BaseService<ResumeEntity, ResumeRepo> {
         // 生成技能点的映射
         Map<String, Integer> nameMap = skillList
                 .stream()
-                .collect(Collectors.toMap(SkillEntity::getName, SkillEntity::getLevel));
+                .collect(Collectors.toMap(Skill::getName, Skill::getLevel));
         // 命中技能点的和
         int getSum = intersection
                 .stream()
@@ -157,20 +152,6 @@ public class ResumeService extends BaseService<ResumeEntity, ResumeRepo> {
         // 技能点占比
         double percent = (double) getSum / sum;
         return (int) Math.round(percent * rulePercent * 100);
-    }
-
-    /**
-     * 投递简历
-     */
-    public void postResume(Long recruitId, String title) {
-        Long userId = UserHolder.get();
-        String json = JSONObject.toJSONString(new SendResume(userId, recruitId, title, LocalDateTime.now()));
-        // 处理简历
-        producer.send(Constant.HANDLE_RESUME, json);
-        // 向接受方发送通知
-        producer.send(Constant.RECEIVE_RESUME, json);
-        // 向投递方发送通知
-        producer.send(Constant.SEND_RESUME, json);
     }
 
 }

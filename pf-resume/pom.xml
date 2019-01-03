@@ -41,18 +41,6 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
             <version>0.2.1.RELEASE</version>
         </dependency>
-        <!-- lightmq -->
-        <dependency>
-            <groupId>com.stalary</groupId>
-            <artifactId>lightmqclient</artifactId>
-            <version>1.1-SNAPSHOT</version>
-            <exclusions><!-- 去掉默认配置 -->
-                <exclusion>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-classic</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <!-- redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -86,6 +74,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <!-- jpa -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 

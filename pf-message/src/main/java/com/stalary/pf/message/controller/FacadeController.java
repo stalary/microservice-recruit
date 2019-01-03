@@ -3,12 +3,13 @@ package com.stalary.pf.message.controller;
 import com.stalary.pf.message.data.dto.ReadMessage;
 import com.stalary.pf.message.data.entity.MessageEntity;
 import com.stalary.pf.message.data.vo.ResponseMessage;
-import com.stalary.pf.message.holder.UserHolder;
 import com.stalary.pf.message.service.MessageService;
+import com.stalary.pf.message.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * FacadeController
@@ -42,8 +43,9 @@ public class FacadeController {
      * @method getMessage 获取一个用户接收的站内信
      **/
     @GetMapping("/user/get")
-    public ResponseMessage getMessage() {
-        Long userId = UserHolder.get();
+    public ResponseMessage getMessage(
+            HttpServletRequest request) {
+        Long userId = UserUtil.getUserId(request);
         return ResponseMessage.successMessage(messageService.findByToId(userId));
     }
 
@@ -64,8 +66,9 @@ public class FacadeController {
      * @method getSendMessage 获取一个用户发送的站内信
      **/
     @GetMapping("/user/send")
-    public ResponseMessage getSendMessage() {
-        Long userId = UserHolder.get();
+    public ResponseMessage getSendMessage(
+            HttpServletRequest request) {
+        Long userId = UserUtil.getUserId(request);
         return ResponseMessage.successMessage(messageService.findByFromId(userId));
     }
 

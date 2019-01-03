@@ -7,9 +7,7 @@ package com.stalary.pf.outside.service;
 
 import com.stalary.pf.outside.client.UserClient;
 import com.stalary.pf.outside.data.Constant;
-import com.stalary.pf.outside.data.ResponseMessage;
 import com.stalary.pf.outside.data.UploadAvatar;
-import com.stalary.pf.outside.holder.UserHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,10 +28,10 @@ public class UserService {
     @Resource
     private QiNiuService qiNiuService;
 
-    public boolean uploadAvatar(MultipartFile avatar) {
-        String name = Constant.getKey(Constant.USER_AVATAR, String.valueOf(UserHolder.get()));
+    public boolean uploadAvatar(Long userId, MultipartFile avatar) {
+        String name = Constant.getKey(Constant.USER_AVATAR, String.valueOf(userId));
         String url = qiNiuService.uploadPicture(avatar, name);
-        return userClient.uploadAvatar(new UploadAvatar(UserHolder.get(), url)).isSuccess();
+        return userClient.uploadAvatar(new UploadAvatar(userId, url)).isSuccess();
     }
 
 }

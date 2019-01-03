@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * SkillEntity
+ * Skill
  *
  * @author lirongqian
  * @since 2018/04/13
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class SkillEntity extends BaseEntity {
+public class Skill extends BaseEntity {
 
     /**
      * 技能名称

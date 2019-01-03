@@ -3,7 +3,7 @@ package com.stalary.pf.resume.config;
 import com.stalary.pf.resume.annotation.AutoValue;
 import com.stalary.pf.resume.annotation.CreateTime;
 import com.stalary.pf.resume.annotation.UpdateTime;
-import com.stalary.pf.resume.utils.IdUtil;
+import com.stalary.pf.resume.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;

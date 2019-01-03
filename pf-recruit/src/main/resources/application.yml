@@ -14,12 +14,12 @@ spring:
     sampler:
       probability: 1.0
   datasource:
-    url: jdbc:mysql://47.94.248.38:3306/personfilter?characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://47.94.248.38:3306/personfilter?autoReconnect=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: li197910
     driver-class-name: com.mysql.jdbc.Driver
     hikari:
-      minimum-idle: 3 # 最小空闲连接数
+      minimum-idle: 1 # 最小空闲连接数
       maximum-pool-size: 15 # 最大连接数量
       pool-name: recruit-pool
       connection-test-query: SELECT 1 # 测试连接

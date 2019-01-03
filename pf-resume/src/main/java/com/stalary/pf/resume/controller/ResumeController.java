@@ -1,7 +1,7 @@
 package com.stalary.pf.resume.controller;
 
 import com.stalary.pf.resume.data.dto.SendResume;
-import com.stalary.pf.resume.data.entity.ResumeEntity;
+import com.stalary.pf.resume.data.entity.Resume;
 import com.stalary.pf.resume.data.vo.ResponseMessage;
 import com.stalary.pf.resume.service.ResumeService;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +29,7 @@ public class ResumeController {
      **/
     @PostMapping
     public ResponseMessage save(
-            @RequestBody ResumeEntity resume) {
+            @RequestBody Resume resume) {
         return ResponseMessage.successMessage(resumeService.saveResume(resume));
     }
 

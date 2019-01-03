@@ -1,6 +1,6 @@
 package com.stalary.pf.resume.repo;
 
-import com.stalary.pf.resume.data.entity.SkillEntity;
+import com.stalary.pf.resume.data.entity.Skill;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  * @since 2018/04/14
  */
 @Repository
-public interface SkillRepo extends BaseRepo<SkillEntity, Long> {
+public interface SkillRepo extends BaseRepo<Skill, Long> {
 
 }

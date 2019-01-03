@@ -5,17 +5,18 @@
  */
 package com.stalary.pf.outside.controller;
 
-import com.stalary.pf.outside.annotation.LoginRequired;
 import com.stalary.pf.outside.data.Email;
 import com.stalary.pf.outside.data.ResponseMessage;
 import com.stalary.pf.outside.service.MailService;
 import com.stalary.pf.outside.service.SmsService;
 import com.stalary.pf.outside.service.UserService;
+import com.stalary.pf.outside.util.UserUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * FacadeController
@@ -56,10 +57,11 @@ public class FacadeController {
      * @param avatar 头像
      **/
     @PostMapping("/avatar")
-    @LoginRequired
     public ResponseMessage upload(
+            HttpServletRequest request,
             @RequestParam("avatar") MultipartFile avatar) {
-        boolean flag = userService.uploadAvatar(avatar);
+        Long userId = UserUtil.getUserId(request);
+        boolean flag = userService.uploadAvatar(userId, avatar);
         if (flag) {
             return ResponseMessage.successMessage("头像上传成功");
         } else {

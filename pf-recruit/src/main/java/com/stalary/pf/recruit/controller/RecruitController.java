@@ -1,14 +1,15 @@
 package com.stalary.pf.recruit.controller;
 
-import com.stalary.pf.recruit.annotation.LoginRequired;
+import com.stalary.pf.recruit.data.dto.SendResume;
 import com.stalary.pf.recruit.data.entity.RecruitEntity;
 import com.stalary.pf.recruit.data.vo.ResponseMessage;
-import com.stalary.pf.recruit.holder.UserHolder;
 import com.stalary.pf.recruit.service.RecruitService;
+import com.stalary.pf.recruit.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * RecruitController
@@ -68,6 +69,12 @@ public class RecruitController {
         return ResponseMessage.successMessage(recruitService.allRecruit(key, page, size));
     }
 
+    @GetMapping("/list")
+    public ResponseMessage recruitList(
+            @RequestParam Long userId) {
+        return ResponseMessage.successMessage(recruitService.findByUserId(userId));
+    }
+
     /**
      * @method getInfo 查看招聘信息
      * @param id 岗位id
@@ -84,8 +91,30 @@ public class RecruitController {
      * @return RecruitEntity 招聘信息
      **/
     @GetMapping("/hr")
-    @LoginRequired
-    public ResponseMessage getHrInfo() {
-        return ResponseMessage.successMessage(recruitService.findByUserId(UserHolder.get()));
+    public ResponseMessage getHrInfo(
+            HttpServletRequest request) {
+        return ResponseMessage.successMessage(recruitService.findByUserId(UserUtil.getUserId(request)));
     }
+
+    /**
+     * 投递简历的步骤
+     * 1 投递简历，在mapdb中构成投递表
+     * 2 向hr发送简历接收通知(站内信，邮件)
+     * 3 向投递者发送简历投递成功的通知
+     * 4 向hr和投递者push更新后的未读通知数量
+     *
+     */
+    /**
+     * @method postResume 投递简历
+     * @param sendResume 投递简历对象
+     **/
+    @PostMapping("/resume")
+    public ResponseMessage postResume(
+            HttpServletRequest request,
+            @RequestBody SendResume sendResume) {
+        log.info("sendResume" + sendResume);
+        recruitService.postResume(UserUtil.getUserId(request), sendResume.getRecruitId(), sendResume.getTitle());
+        return ResponseMessage.successMessage("投递成功");
+    }
+
 }
