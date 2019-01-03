@@ -22,6 +22,11 @@ spring:
     host: 47.94.248.38
     timeout: 5000ms
     port: 6379
+    lettuce:
+      pool:
+        max-idle: 10
+        max-active: 10
+        min-idle: 1
 logging:
   level:
     com.stalary.pf.resume.client: DEBUG # feign日志

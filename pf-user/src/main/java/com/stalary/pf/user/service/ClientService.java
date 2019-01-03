@@ -20,6 +20,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * WebClient
@@ -44,18 +45,14 @@ public class ClientService {
     private ProjectInfo projectInfo;
 
     public void genProjectInfo() {
-        // 将项目信息存入缓存中
-        if (StringUtils.isEmpty(redis.opsForValue().get(RedisKeys.PROJECT_INFO))) {
+        // 获取项目信息
+        if (projectInfo == null) {
             ResponseMessage<ProjectInfo> info = userCenterClient.getProjectInfo("leader直聘", "17853149599");
             if (info.isSuccess()) {
-                redis.opsForValue().set(RedisKeys.PROJECT_INFO, JSONObject.toJSONString(info.getData()));
                 projectInfo = info.getData();
             } else {
                 log.warn("genProjectInfo error");
             }
-        } else {
-            // 存在缓存时直接取出
-            projectInfo = JSONObject.parseObject(redis.opsForValue().get(RedisKeys.PROJECT_INFO), ProjectInfo.class);
         }
     }
 
@@ -94,8 +91,8 @@ public class ClientService {
             log.warn("postUser type " + type + " error");
         }
         if (response.isSuccess()) {
-            // 当修改密码后更新缓存
-            redis.opsForValue().set(Constant.getKey(RedisKeys.USER_TOKEN, response.getData()), JSONObject.toJSONString(user));
+            // 当修改密码后更新缓存,缓存7天
+            redis.opsForValue().set(Constant.getKey(RedisKeys.USER_TOKEN, response.getData()), JSONObject.toJSONString(user), 7, TimeUnit.DAYS);
         } else {
             throw new MyException(response.getCode(), response.getMsg());
         }
@@ -114,7 +111,7 @@ public class ClientService {
             ResponseMessage<User> response = userCenterClient.getUserInfo(token, projectInfo.getKey());
             if (response.isSuccess()) {
                 User user = response.getData();
-                redis.opsForValue().set(redisKey, JSONObject.toJSONString(user));
+                redis.opsForValue().set(redisKey, JSONObject.toJSONString(user), 7, TimeUnit.DAYS);
                 UserHolder.set(user);
                 return user;
             } else {
