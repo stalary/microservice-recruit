@@ -2,6 +2,7 @@ package com.stalary.pf.outside.client;
 
 import com.stalary.pf.outside.data.ResponseMessage;
 import com.stalary.pf.outside.data.UploadAvatar;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @FeignClient(name = "user", url = "${user.server}")
 @Component
+@RefreshScope
 public interface UserClient {
 
     @PostMapping("/user/avatar")

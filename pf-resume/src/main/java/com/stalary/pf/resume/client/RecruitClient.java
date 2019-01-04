@@ -2,6 +2,7 @@ package com.stalary.pf.resume.client;
 
 import com.stalary.pf.resume.data.dto.Recruit;
 import com.stalary.pf.resume.data.vo.ResponseMessage;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 @FeignClient(name = "recruit", url = "${recruit.server}")
 @Component
+@RefreshScope
 public interface RecruitClient {
 
     @GetMapping("/recruit/list")

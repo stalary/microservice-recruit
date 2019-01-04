@@ -2,6 +2,7 @@ package com.stalary.pf.outside.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -19,6 +20,7 @@ import java.util.Properties;
  */
 @Service
 @Slf4j
+@RefreshScope
 public class MailService {
 
     private final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";

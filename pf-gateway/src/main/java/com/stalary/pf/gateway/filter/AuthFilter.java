@@ -8,7 +8,6 @@ package com.stalary.pf.gateway.filter;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import com.stalary.pf.gateway.client.UserCenterClient;
-import com.stalary.pf.gateway.config.CoreConfig;
 import com.stalary.pf.gateway.data.ProjectInfo;
 import com.stalary.pf.gateway.data.ResponseMessage;
 import com.stalary.pf.gateway.data.User;
@@ -16,6 +15,8 @@ import com.stalary.pf.gateway.exception.MyException;
 import com.stalary.pf.gateway.exception.ResultEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -25,6 +26,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -36,15 +38,17 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Component
+@RefreshScope
 public class AuthFilter implements GlobalFilter, Ordered {
 
     @Resource
     private UserCenterClient userCenterClient;
 
-    @Resource
-    private CoreConfig coreConfig;
-
     private String projectKey;
+
+    /** 需要验证登陆的接口 **/
+    @Value("${pf.authList}")
+    private List<String> authList;
 
     /** 存储用户id缓存 **/
     private LoadingCache<String, String> userIdCache = Caffeine.newBuilder()
@@ -61,7 +65,6 @@ public class AuthFilter implements GlobalFilter, Ordered {
                 }
             });
 
-    // todo:配置使用nacos
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String token = Optional.ofNullable(exchange.getRequest().getHeaders().getFirst("Authorization")).orElse("");
@@ -77,7 +80,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
         String userId = Optional.ofNullable(userIdCache.get(token)).orElse("");
         // 对需要登陆的接口进行验证
         String path = exchange.getRequest().getPath().pathWithinApplication().value();
-        if (coreConfig.getAuthList().contains(path) && StringUtils.isEmpty(userId)) {
+        if (authList.contains(path) && StringUtils.isEmpty(userId)) {
             throw new MyException(ResultEnum.NEED_LOGIN);
         }
         ServerHttpRequest host = exchange.getRequest().mutate().header("userId", userId).build();

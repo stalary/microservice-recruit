@@ -3,6 +3,7 @@ package com.stalary.pf.user.client;
 import com.stalary.pf.user.data.dto.ProjectInfo;
 import com.stalary.pf.user.data.dto.User;
 import com.stalary.pf.user.data.vo.ResponseMessage;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @FeignClient(name = "user", url = "${server.user}")
 @Component
+@RefreshScope
 public interface UserCenterClient {
 
     /**

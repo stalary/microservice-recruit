@@ -7,7 +7,6 @@ package com.stalary.pf.message.service;
 
 import com.stalary.pf.message.client.PushClient;
 import com.stalary.pf.message.data.entity.MessageEntity;
-import com.stalary.pf.message.holder.UserHolder;
 import com.stalary.pf.message.repo.MessageRepo;
 import org.springframework.stereotype.Service;
 

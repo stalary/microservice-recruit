@@ -1,7 +1,6 @@
 server:
   port: 10000
   user: http://usercenter.stalary.com
-  debug: true
   max-http-header-size: 8192
 spring:
   cloud:
@@ -41,14 +40,14 @@ spring:
         - Path=/resume/**
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
-  application:
-    name: pf-gateway
+        server-addr: localhost:8848
   zipkin:
-    base-url: http://localhost:10001/
+    base-url: localhost:10001/
   sleuth:
     sampler:
       probability: 1.0
+  application:
+    name: pf-gateway
 logging:
   level:
     com.stalary.pf.gateway.client: DEBUG # feign日志

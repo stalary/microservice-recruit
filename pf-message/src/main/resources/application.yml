@@ -7,7 +7,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: localhost:8848
   datasource:
     url: jdbc:mysql://47.94.248.38:3306/personfilter?autoReconnect=true&characterEncoding=utf-8&useSSL=false
     username: root
@@ -25,7 +25,7 @@ spring:
       ddl-auto: update
     show-sql: false
   zipkin:
-    base-url: http://localhost:10001/
+    base-url: localhost:10001/
   sleuth:
     sampler:
       probability: 1.0
