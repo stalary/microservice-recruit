@@ -17,7 +17,6 @@ import java.util.List;
  */
 @FeignClient(name = "recruit", url = "${recruit.server}")
 @Component
-@RefreshScope
 public interface RecruitClient {
 
     @GetMapping("/recruit/list")

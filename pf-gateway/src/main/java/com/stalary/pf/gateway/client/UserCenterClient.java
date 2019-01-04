@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @FeignClient(name = "usercenter", url = "${server.user}")
 @Component
-@RefreshScope
 public interface UserCenterClient {
 
     /**

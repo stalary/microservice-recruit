@@ -19,10 +19,6 @@ spring:
         predicates:
         - Path=/message/**
       - id: host_route
-        uri: http://localhost:10014
-        predicates:
-        - Path=/message/**
-      - id: host_route
         uri: http://localhost:10015
         predicates:
         - Path=/user/**
@@ -42,7 +38,7 @@ spring:
       discovery:
         server-addr: localhost:8848
   zipkin:
-    base-url: localhost:10001/
+    base-url: http://localhost:10001
   sleuth:
     sampler:
       probability: 1.0
@@ -51,5 +47,3 @@ spring:
 logging:
   level:
     com.stalary.pf.gateway.client: DEBUG # feign日志
-pf:
-  authList: /message/user/get, /message/user/send, /recruit/hr, /recruit/resume, /outside/avatar

@@ -9,7 +9,7 @@ spring:
       discovery:
         server-addr: localhost:8848
   zipkin:
-    base-url: localhost:10001/
+    base-url: http://localhost:10001/
   sleuth:
     sampler:
       probability: 1.0
@@ -35,4 +35,4 @@ user:
   server: localhost:10015
 logging:
   level:
-    com.stalary.pf.gateway.client: DEBUG # feign日志
+    com.stalary.pf.outside.client: DEBUG # feign日志

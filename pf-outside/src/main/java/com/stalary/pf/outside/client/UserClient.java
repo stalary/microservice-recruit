@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @FeignClient(name = "user", url = "${user.server}")
 @Component
-@RefreshScope
 public interface UserClient {
 
     @PostMapping("/user/avatar")

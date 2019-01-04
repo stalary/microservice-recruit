@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @FeignClient(name = "message", url = "${message.server}")
 @Component
-@RefreshScope
 public interface MessageClient {
 
     @GetMapping("/message/sendCount")
