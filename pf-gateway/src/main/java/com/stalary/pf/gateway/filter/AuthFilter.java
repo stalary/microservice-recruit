@@ -77,7 +77,10 @@ public class AuthFilter implements GlobalFilter, Ordered {
                 projectKey = project.getData().getKey();
             }
         }
-        String userId = Optional.ofNullable(userIdCache.get(token)).orElse("");
+        String userId = "";
+        if (StringUtils.isNotEmpty(token)) {
+            userId = Optional.ofNullable(userIdCache.get(token)).orElse("");
+        }
         // 对需要登陆的接口进行验证
         String path = exchange.getRequest().getPath().pathWithinApplication().value();
         if (authList.contains(path) && StringUtils.isEmpty(userId)) {
