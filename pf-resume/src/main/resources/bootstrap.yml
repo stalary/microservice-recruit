@@ -4,5 +4,5 @@ spring:
       config:
         server-addr: localhost:8848
         file-extension: yml
-        shared-dataids: redis.yml,mongo.yml
+        shared-dataids: redis.yml,mongo.yml,printlog.yml
         refreshable-dataids: redis.yml,mongo.yml

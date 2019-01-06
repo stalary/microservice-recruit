@@ -5,6 +5,7 @@
  */
 package com.stalary.pf.user.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.stalary.pf.user.annotation.LoginRequired;
 import com.stalary.pf.user.client.MessageClient;
 import com.stalary.pf.user.data.constant.Constant;
@@ -212,6 +213,7 @@ public class FacadeController {
      **/
     @GetMapping("/send")
     @LoginRequired
+    @SentinelResource("send")
     public ResponseMessage getSendList() {
         return ResponseMessage.successMessage(userInfoService.getSendList());
     }
@@ -222,6 +224,7 @@ public class FacadeController {
      **/
     @GetMapping("/receive")
     @LoginRequired
+    @SentinelResource("receive")
     public ResponseMessage getReceiveList() {
         return ResponseMessage.successMessage(userInfoService.getReceiveList());
     }

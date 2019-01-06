@@ -47,3 +47,4 @@ spring:
 logging:
   level:
     com.stalary.pf.gateway.client: DEBUG # feign日志
+    com.alibaba.nacos.client.naming: WARN

@@ -13,9 +13,6 @@ spring:
   sleuth:
     sampler:
       probability: 1.0
-logging:
-  level:
-    com.stalary.pf.consumer.client: DEBUG # feign日志
 com:
   stalary:
     lightmq:
@@ -36,3 +33,6 @@ recruit:
   server: localhost:10016
 resume:
   server: localhost:10017
+logging:
+  level:
+    com.stalary.pf.consumer.client: DEBUG # feign日志

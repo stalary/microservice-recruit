@@ -8,6 +8,10 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+    sentinel:
+      transport:
+        port: 10003
+        dashboard: localhost:10002
   zipkin:
     base-url: http://127.0.0.1:10001/
   sleuth:
