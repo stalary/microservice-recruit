@@ -1,0 +1,15 @@
+server:
+  port: 10001
+  max-http-header-size: 8192
+spring:
+  application:
+    name: localhost # 由于nacos的原因，暂时设置为localhost
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+management:
+  metrics:
+    web:
+      server:
+        auto-time-requests: false
