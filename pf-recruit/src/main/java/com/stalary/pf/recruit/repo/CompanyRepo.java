@@ -14,5 +14,4 @@ import java.util.List;
 public interface CompanyRepo extends BaseRepo<CompanyEntity, Long> {
 
     List<CompanyEntity> findByNameIsLike(String key);
-
 }

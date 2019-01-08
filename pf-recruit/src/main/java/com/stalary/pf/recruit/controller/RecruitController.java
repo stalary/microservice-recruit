@@ -69,6 +69,22 @@ public class RecruitController {
         return ResponseMessage.successMessage(recruitService.allRecruit(key, page, size));
     }
 
+    @GetMapping("/one")
+    public ResponseMessage getRecruitById(@RequestParam Long recruitId) {
+        RecruitEntity recruit = recruitService.findOne(recruitId);
+        recruit.deserializeFields();
+        return ResponseMessage.successMessage(recruit);
+    }
+
+    /**
+     * @method allRecruitName 获取所有职位的名称，用于保存个人信息时选择意向职位
+     * @return 0 职位名称列表
+     **/
+    @GetMapping("/name")
+    public ResponseMessage allRecruitName() {
+        return ResponseMessage.successMessage(recruitService.allRecruitName());
+    }
+
     @GetMapping("/list")
     public ResponseMessage recruitList(
             @RequestParam Long userId) {
@@ -117,4 +133,25 @@ public class RecruitController {
         return ResponseMessage.successMessage("投递成功");
     }
 
+    /**
+     * @method recommendCandidate 推荐候选人
+     * @return RecommendCandidate 候选人列表
+     **/
+    @GetMapping("/recommend/candidate")
+    public ResponseMessage recommendCandidate(
+            HttpServletRequest request) {
+        Long userId = UserUtil.getUserId(request);
+        return ResponseMessage.successMessage(recruitService.getRecommendCandidate(userId));
+    }
+
+    /**
+     * @method recommendPosition 推荐职位
+     * @return RecommendRecruit 职位列表
+     **/
+    @GetMapping("/recommend/job")
+    public ResponseMessage recommendJob(
+            HttpServletRequest request) {
+        Long userId = UserUtil.getUserId(request);
+        return ResponseMessage.successMessage(recruitService.getRecommendJob(userId));
+    }
 }

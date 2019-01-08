@@ -22,3 +22,5 @@ logging:
     com.stalary.pf.recruit.client: DEBUG # feign日志
 user:
   server: localhost:10015
+resume:
+  server: localhost:10017

@@ -106,6 +106,12 @@ public class FacadeController {
         return ResponseMessage.successMessage(userInfoService.getInfo());
     }
 
+    @GetMapping("/info")
+    public ResponseMessage getInfoByUserId(
+            @RequestParam Long userId) {
+        return ResponseMessage.successMessage(userInfoService.getInfoByUserId(userId));
+    }
+
     /**
      * @method updateInfo 修改用户信息
      * @param userInfo 用户信息对象
@@ -213,7 +219,6 @@ public class FacadeController {
      **/
     @GetMapping("/send")
     @LoginRequired
-    @SentinelResource("send")
     public ResponseMessage getSendList() {
         return ResponseMessage.successMessage(userInfoService.getSendList());
     }
@@ -224,8 +229,15 @@ public class FacadeController {
      **/
     @GetMapping("/receive")
     @LoginRequired
-    @SentinelResource("receive")
     public ResponseMessage getReceiveList() {
         return ResponseMessage.successMessage(userInfoService.getReceiveList());
     }
+
+    @GetMapping("/recommend")
+    public ResponseMessage getRecommendUser(
+            @RequestParam String company,
+            @RequestParam String job) {
+        return ResponseMessage.successMessage(userInfoService.getUserInfoByCompanyOrJob(company, job));
+    }
+
 }

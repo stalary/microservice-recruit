@@ -35,6 +35,15 @@ public class CompanyController {
     }
 
     /**
+     * @method allCompanyName 获取所有公司的名称，用于保存个人信息时选择意向岗位
+     * @return 0 公司名称列表
+     **/
+    @GetMapping("/name")
+    public ResponseMessage allCompanyName() {
+        return ResponseMessage.successMessage(companyService.allCompanyName());
+    }
+
+    /**
      * @method allCompanyNoPage 不分页查找所有公司，用于获取公司列表,传入key则按关键字查找
      * @param key 关键字
      * @return 0 公司列表

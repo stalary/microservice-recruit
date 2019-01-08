@@ -39,7 +39,6 @@ public class RecruitEntity extends BaseEntity {
     private String title;
 
     @Transient
-    @JsonIgnore
     private List<SkillRule> skillList;
 
     @JsonIgnore

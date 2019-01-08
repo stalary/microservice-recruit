@@ -21,4 +21,6 @@ public interface RecruitRepo extends BaseRepo<RecruitEntity, Long> {
     List<RecruitEntity> findByHrId(Long userId);
 
     List<RecruitEntity> findByCompanyId(Long id);
+
+    List<RecruitEntity> findByTitleIn(List<String> titleList);
 }

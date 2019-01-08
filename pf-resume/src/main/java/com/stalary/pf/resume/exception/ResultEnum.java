@@ -10,12 +10,7 @@ import lombok.Getter;
 public enum ResultEnum {
     UNKNOW_ERROR(500, "服务器错误"),
 
-    // 1开头为用户有关的错误
-    NEED_LOGIN(1001, "未登陆"),
-
-    // 2开头为第三方接口的错误
-    SEND_NOTE_ERROR(2001, "发送短信失败"),
-    QINIU_ERROR(2002, "七牛云接口出错"),
+    RESUME_NOT_EXISI(11, "简历不存在"),
 
     SUCCESS(0, "成功");
 

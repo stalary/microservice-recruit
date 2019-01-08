@@ -44,6 +44,10 @@ public class ResumeController {
         return ResponseMessage.successMessage(resumeService.findByUserId(userId));
     }
 
+    /**
+     * @method handleResume
+     * @param sendResume 处理简历
+     **/
     @PostMapping("/handle")
     public ResponseMessage handleResume(
             @RequestBody SendResume sendResume) {
@@ -51,4 +55,16 @@ public class ResumeController {
         return ResponseMessage.successMessage("简历处理成功");
     }
 
+    /**
+     * @method getRate 获取职位匹配程度
+     * @param userId 用户id
+     * @param recruitId 职位id
+     * @return rate 匹配度
+     **/
+    @GetMapping("/rate")
+    public ResponseMessage getRate(
+            @RequestParam Long userId,
+            @RequestParam Long recruitId) {
+        return ResponseMessage.successMessage(resumeService.calculate(recruitId, userId));
+    }
 }

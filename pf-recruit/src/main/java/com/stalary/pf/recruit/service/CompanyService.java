@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * CompanyService
@@ -38,6 +39,11 @@ public class CompanyService extends BaseService<CompanyEntity, CompanyRepo> {
         result.put("total", companyList.getTotalPages());
         result.put("companyList", companyList.getContent());
         return result;
+    }
+
+    public List<String> allCompanyName() {
+        List<CompanyEntity> all = repo.findAll();
+        return all.stream().map(CompanyEntity::getName).collect(Collectors.toList());
     }
 
     public List<CompanyEntity> findCompany(String key) {

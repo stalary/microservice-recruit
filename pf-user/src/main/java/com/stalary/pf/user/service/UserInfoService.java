@@ -60,7 +60,12 @@ public class UserInfoService {
         return repo.findByUserId(UserHolder.get().getId());
     }
 
+    public UserInfoEntity getInfoByUserId(Long userId) {
+        return repo.findByUserId(userId);
+    }
+
     public UserInfoEntity save(UserInfoEntity entity) {
+        // todo: 需要修改intentionCompany和intentionJob，逗号隔开，新增name字段
         return repo.save(entity);
     }
 
@@ -93,5 +98,9 @@ public class UserInfoService {
         });
         ret.sort(Comparator.comparing(ReceiveResume::getRate).reversed());
         return new ReceiveInfo(ret);
+    }
+
+    public List<UserInfoEntity> getUserInfoByCompanyOrJob(String company, String job) {
+        return repo.findByIntentionCompanyContainsOrIntentionJobContains(company, job);
     }
 }

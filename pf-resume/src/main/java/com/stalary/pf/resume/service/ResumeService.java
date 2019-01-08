@@ -8,6 +8,8 @@ import com.stalary.pf.resume.data.constant.RedisKeys;
 import com.stalary.pf.resume.data.dto.*;
 import com.stalary.pf.resume.data.entity.Resume;
 import com.stalary.pf.resume.data.entity.Skill;
+import com.stalary.pf.resume.exception.MyException;
+import com.stalary.pf.resume.exception.ResultEnum;
 import com.stalary.pf.resume.repo.ResumeRepo;
 import com.stalary.pf.resume.repo.SkillRepo;
 import com.stalary.pf.resume.util.IdUtil;
@@ -106,6 +108,9 @@ public class ResumeService extends BaseService<Resume, ResumeRepo> {
         Recruit recruit = recruitClient.getRecruit(recruitId).getData();
         List<SkillRule> skillRuleList = recruit.getSkillList();
         Resume resume = repo.findByUserId(userId);
+        if (resume == null) {
+            throw new MyException(ResultEnum.RESUME_NOT_EXISI);
+        }
         List<Skill> skillList = resume.getSkills();
         // 求出规则表中总和
         int ruleSum = skillRuleList
