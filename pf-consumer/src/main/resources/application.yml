@@ -7,9 +7,9 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: localhost:8848
+        server-addr: 59.111.95.232:8848
   zipkin:
-    base-url: http://localhost:10001/
+    base-url: http://59.111.95.232:9411/
   sleuth:
     sampler:
       probability: 1.0
@@ -21,18 +21,6 @@ com:
       group: master
       auto: true
       url: http://120.24.5.178:8001
-push:
-  server: localhost:10011
-outside:
-  server: localhost:10012
-message:
-  server: localhost:10013
-user:
-  server: localhost:10015
-recruit:
-  server: localhost:10016
-resume:
-  server: localhost:10017
 logging:
   level:
     com.stalary.pf.consumer.client: DEBUG # feign日志

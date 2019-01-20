@@ -6,20 +6,12 @@
         <groupId>com.stalary</groupId>
         <artifactId>pf</artifactId>
         <version>0.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <artifactId>gateway</artifactId>
+    <artifactId>pf-gateway</artifactId>
     <version>0.1</version>
     <name>gateway</name>
+    <packaging>jar</packaging>
     <description>personfilter system gateway service</description>
-
-    <repositories>
-        <repository>
-            <id>aliyun-repository</id>
-            <name>aliyun repository</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>

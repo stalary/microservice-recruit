@@ -32,7 +32,7 @@ public class RecruitController {
     private RecruitService recruitService;
 
     /**
-     * @method add 添加招聘信息
+     * @method add 添加和修改招聘信息
      * @param recruit 招聘信息对象
      * @return RecruitEntity 招聘信息对象
      **/
@@ -114,7 +114,7 @@ public class RecruitController {
 
     /**
      * 投递简历的步骤
-     * 1 投递简历，在mapdb中构成投递表
+     * 1 投递简历，在redis中构成投递表
      * 2 向hr发送简历接收通知(站内信，邮件)
      * 3 向投递者发送简历投递成功的通知
      * 4 向hr和投递者push更新后的未读通知数量

@@ -5,7 +5,11 @@
     <properties>
         <spring-boot.version>2.0.7.RELEASE</spring-boot.version>
         <spring-cloud.version>Finchley.SR2</spring-cloud.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <docker.image.prefix>stalary</docker.image.prefix>
         <java.version>1.8</java.version>
+        <skipTests>true</skipTests>
     </properties>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,12 +18,16 @@
     <version>0.1</version>
     <packaging>pom</packaging>
     <description>recruit system</description>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.7.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
     <modules>
         <!-- 网关服务 -->
         <module>pf-gateway</module>
-        <!-- 链路追踪服务 -->
-        <module>pf-sleuth</module>
         <!-- 外部服务 -->
         <module>pf-outside</module>
         <!-- 用户服务 -->
@@ -53,4 +61,31 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <maintainer>stalary@163.com</maintainer>
+                    <baseImage>openjdk:8-jdk-alpine</baseImage>
+                    <imageTags>
+                        <imageTag>0.0.1</imageTag>
+                        <imageTag>latest</imageTag>
+                    </imageTags>
+                    <forceTags>true</forceTags>
+                    <entryPoint>["java", "-jar", "-Duser.timezone=GMT+08", "/${project.build.finalName}.jar"]</entryPoint>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

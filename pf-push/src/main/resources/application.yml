@@ -7,13 +7,13 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 127.0.0.1:8848
+        server-addr: 59.111.95.232:8848
     sentinel:
       transport:
         port: 10003
-        dashboard: localhost:10002
+        dashboard: 59.111.95.232:10002
   zipkin:
-    base-url: http://127.0.0.1:10001/
+    base-url: http://59.111.95.232:9411/
   sleuth:
     sampler:
       probability: 1.0

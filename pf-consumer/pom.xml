@@ -6,9 +6,8 @@
         <groupId>com.stalary</groupId>
         <artifactId>pf</artifactId>
         <version>0.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <artifactId>consumer</artifactId>
+    <artifactId>pf-consumer</artifactId>
     <version>0.1</version>
     <name>consumer</name>
     <description>recruit system consumer service</description>

@@ -7,13 +7,13 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: localhost:8848
+        server-addr: 59.111.95.232:8848
     sentinel:
       transport:
         port: 10003
-        dashboard: localhost:10002
+        dashboard: 59.111.95.232:10002
   zipkin:
-    base-url: http://localhost:10001/
+    base-url: http://59.111.95.232:9411/
   sleuth:
     sampler:
       probability: 1.0
@@ -35,8 +35,6 @@ spring:
     password: li1979101
     port: 465
     default-encoding: UTF-8
-user:
-  server: localhost:10015
 logging:
   level:
     com.stalary.pf.outside.client: DEBUG # feign日志

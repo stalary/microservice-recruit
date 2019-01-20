@@ -65,8 +65,6 @@ public class Constant {
      */
     public static final String LOOK = "look";
 
-    public static final List<String> ORIGIN_LIST = Lists.newArrayList("120.24.5.178", "localhost");
-
     public static final Joiner JOINER = Joiner.on(SPLIT);
 
     public static String getKey(String... keys) {

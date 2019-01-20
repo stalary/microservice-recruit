@@ -6,9 +6,8 @@
         <groupId>com.stalary</groupId>
         <artifactId>pf</artifactId>
         <version>0.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <artifactId>recruit</artifactId>
+    <artifactId>pf-recruit</artifactId>
     <version>0.1</version>
     <name>recruit</name>
     <description>recruit system recruit service</description>

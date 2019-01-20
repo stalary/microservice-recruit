@@ -6,9 +6,9 @@
         <groupId>com.stalary</groupId>
         <artifactId>pf</artifactId>
         <version>0.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
+
     </parent>
-    <artifactId>push</artifactId>
+    <artifactId>pf-push</artifactId>
     <version>0.1</version>
     <name>push</name>
     <description>recruit system push service</description>

@@ -6,9 +6,8 @@
         <groupId>com.stalary</groupId>
         <artifactId>pf</artifactId>
         <version>0.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <artifactId>message</artifactId>
+    <artifactId>pf-message</artifactId>
     <version>0.1</version>
     <name>message</name>
     <description>recruit system message service</description>

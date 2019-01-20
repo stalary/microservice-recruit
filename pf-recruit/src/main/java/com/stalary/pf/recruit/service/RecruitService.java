@@ -6,7 +6,6 @@ import com.stalary.pf.recruit.client.ResumeClient;
 import com.stalary.pf.recruit.client.UserClient;
 import com.stalary.pf.recruit.data.constant.Constant;
 import com.stalary.pf.recruit.data.dto.SendResume;
-import com.stalary.pf.recruit.data.dto.SkillRule;
 import com.stalary.pf.recruit.data.dto.User;
 import com.stalary.pf.recruit.data.dto.UserInfo;
 import com.stalary.pf.recruit.data.entity.CompanyEntity;
@@ -159,23 +158,25 @@ public class RecruitService extends BaseService<RecruitEntity, RecruitRepo> {
         List<RecruitEntity> recruitList = findByUserId(userId);
         recruitList.forEach(recruit -> {
             CompanyEntity company = companyRepo.findById(recruit.getCompanyId()).orElse(null);
-            // 首先通过职位和公司名称去匹配用户
-            String job = recruit.getTitle();
-            String companyName = company.getName();
-            List<UserInfo> userInfoList = userClient.getRecommendCandidate(companyName, job).getData();
-            List<Candidate> resultList = new ArrayList<>();
-            userInfoList.forEach(userInfo -> {
-                // 公司和职位全匹配的在前面
-                Candidate candidate = Candidate.init(userInfo);
-                Integer rate = resumeClient.getRate(userInfo.getUserId(), recruit.getId()).getData();
-                candidate.setRate(rate == null ? 0 : rate);
-                resultList.add(candidate);
-            });
-            // 按照简历匹配程度排序
-            if (!resultList.isEmpty()) {
-                resultList.sort(Comparator.comparing(Candidate::getRate).reversed());
+            if (company != null) {
+                // 首先通过职位和公司名称去匹配用户
+                String job = recruit.getTitle();
+                String companyName = company.getName();
+                List<UserInfo> userInfoList = userClient.getRecommendCandidate(companyName, job).getData();
+                List<Candidate> resultList = new ArrayList<>();
+                userInfoList.forEach(userInfo -> {
+                    // 公司和职位全匹配的在前面
+                    Candidate candidate = Candidate.init(userInfo);
+                    Integer rate = resumeClient.getRate(userInfo.getUserId(), recruit.getId()).getData();
+                    candidate.setRate(rate == null ? 0 : rate);
+                    resultList.add(candidate);
+                });
+                // 按照简历匹配程度排序
+                if (!resultList.isEmpty()) {
+                    resultList.sort(Comparator.comparing(Candidate::getRate).reversed());
+                }
+                ret.add(new RecommendCandidate(job, resultList));
             }
-            ret.add(new RecommendCandidate(job, resultList));
         });
         return ret;
     }
@@ -189,13 +190,15 @@ public class RecruitService extends BaseService<RecruitEntity, RecruitRepo> {
         List<RecommendRecruit> firstList = new ArrayList<>();
         List<RecommendRecruit> secondList = new ArrayList<>();
         recruitList.forEach(recruit -> {
-            CompanyEntity companyEntity = companyRepo.findById(recruit.getCompanyId()).orElse(null);
-            if (companyList.contains(companyEntity.getName())) {
-                RecommendRecruit recommendRecruit = new RecommendRecruit(recruit.getId(), recruit.getTitle(), companyEntity.getName());
-                firstList.add(recommendRecruit);
-            } else {
-                RecommendRecruit recommendRecruit = new RecommendRecruit(recruit.getId(), recruit.getTitle(), companyEntity.getName());
-                secondList.add(recommendRecruit);
+            CompanyEntity company = companyRepo.findById(recruit.getCompanyId()).orElse(null);
+            if (company != null) {
+                if (companyList.contains(company.getName())) {
+                    RecommendRecruit recommendRecruit = new RecommendRecruit(recruit.getId(), recruit.getTitle(), company.getName());
+                    firstList.add(recommendRecruit);
+                } else {
+                    RecommendRecruit recommendRecruit = new RecommendRecruit(recruit.getId(), recruit.getTitle(), company.getName());
+                    secondList.add(recommendRecruit);
+                }
             }
         });
         firstList.addAll(secondList);

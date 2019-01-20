@@ -6,9 +6,8 @@
         <groupId>com.stalary</groupId>
         <artifactId>pf</artifactId>
         <version>0.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <artifactId>resume</artifactId>
+    <artifactId>pf-resume</artifactId>
     <version>0.1</version>
     <name>resume</name>
     <description>recruit system resume service</description>
