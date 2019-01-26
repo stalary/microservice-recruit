@@ -1,6 +1,10 @@
 # microservice-recruit
 基于微服务架构实现的智能招聘系统(用于毕业设计)
 
+# 项目结构
+![项目结构图](https://upload-images.jianshu.io/upload_images/9252736-5b380d3f10c806e8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
 # 技术栈
 - Spring-Boot
 - Spring-Cloud

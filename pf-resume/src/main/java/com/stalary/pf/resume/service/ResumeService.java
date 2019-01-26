@@ -71,7 +71,8 @@ public class ResumeService extends BaseService<Resume, ResumeRepo> {
         String receiveKey = Constant.getKey(RedisKeys.RESUME_RECEIVE, String.valueOf(recruitId));
         UserInfo userInfo = userClient.getUserInfo(userId).getData();
         // 计算匹配度
-        int rate = calculate(recruitId, userId);
+        Recruit recruit = recruitClient.getRecruit(recruitId).getData();
+        int rate = calculate(recruit, userId);
         ReceiveResume receiveResume = new ReceiveResume(sendResume.getTitle(), userInfo.getNickname(), userInfo.getUserId(), rate, LocalDateTime.now());
         redisHash.put(receiveKey, String.valueOf(userId), JSONObject.toJSONString(receiveResume));
         log.info("end handle resume spend time is " + (System.currentTimeMillis() - start));
@@ -104,12 +105,11 @@ public class ResumeService extends BaseService<Resume, ResumeRepo> {
      * 简历打分
      *
      */
-    public int calculate(Long recruitId, Long userId) {
-        Recruit recruit = recruitClient.getRecruit(recruitId).getData();
+    public int calculate(Recruit recruit, Long userId) {
         List<SkillRule> skillRuleList = recruit.getSkillList();
         Resume resume = repo.findByUserId(userId);
         if (resume == null) {
-            throw new MyException(ResultEnum.RESUME_NOT_EXISI);
+            throw new MyException(ResultEnum.RESUME_NOT_EXIST);
         }
         List<Skill> skillList = resume.getSkills();
         // 求出规则表中总和

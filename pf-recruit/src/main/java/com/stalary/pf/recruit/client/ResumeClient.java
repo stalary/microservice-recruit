@@ -1,9 +1,12 @@
 package com.stalary.pf.recruit.client;
 
+import com.stalary.pf.recruit.data.dto.RecruitDto;
 import com.stalary.pf.recruit.data.vo.ResponseMessage;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -15,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Component
 public interface ResumeClient {
 
-    @GetMapping("/resume/rate")
+    @PostMapping("/resume/rate")
     ResponseMessage<Integer> getRate(
             @RequestParam("userId") Long userId,
-            @RequestParam("recruitId") Long recruitId);
+            @RequestBody RecruitDto recruit);
 }

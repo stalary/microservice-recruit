@@ -10,7 +10,7 @@ import lombok.Getter;
 public enum ResultEnum {
     UNKNOW_ERROR(500, "服务器错误"),
 
-    RESUME_NOT_EXISI(11, "简历不存在"),
+    RESUME_NOT_EXIST(11, "简历不存在"),
 
     SUCCESS(0, "成功");
 

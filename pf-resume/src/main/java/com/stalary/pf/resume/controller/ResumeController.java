@@ -1,5 +1,6 @@
 package com.stalary.pf.resume.controller;
 
+import com.stalary.pf.resume.data.dto.Recruit;
 import com.stalary.pf.resume.data.dto.SendResume;
 import com.stalary.pf.resume.data.entity.Resume;
 import com.stalary.pf.resume.data.vo.ResponseMessage;
@@ -11,8 +12,8 @@ import javax.annotation.Resource;
 /**
  * ResumeController
  *
- * @description 简历操作接口
  * @author lirongqian
+ * @description 简历操作接口
  * @since 2018/04/16
  */
 @RestController
@@ -23,9 +24,9 @@ public class ResumeController {
     private ResumeService resumeService;
 
     /**
-     * @method save  保存修改简历
      * @param resume 简历对象
      * @return Resume 简历对象
+     * @method save  保存修改简历
      **/
     @PostMapping
     public ResponseMessage save(
@@ -34,9 +35,9 @@ public class ResumeController {
     }
 
     /**
-     * @method getResumeByUserId 通过userId查找对应简历
      * @param userId 用户id
      * @return Resume 简历对象
+     * @method getResumeByUserId 通过userId查找对应简历
      **/
     @GetMapping
     public ResponseMessage getResumeByUserId(
@@ -45,8 +46,8 @@ public class ResumeController {
     }
 
     /**
-     * @method handleResume
      * @param sendResume 处理简历
+     * @method handleResume
      **/
     @PostMapping("/handle")
     public ResponseMessage handleResume(
@@ -56,15 +57,15 @@ public class ResumeController {
     }
 
     /**
-     * @method getRate 获取职位匹配程度
-     * @param userId 用户id
-     * @param recruitId 职位id
+     * @param userId    用户id
+     * @param recruit 职位信息
      * @return rate 匹配度
+     * @method getRate 获取职位匹配程度
      **/
-    @GetMapping("/rate")
+    @PostMapping("/rate")
     public ResponseMessage getRate(
             @RequestParam Long userId,
-            @RequestParam Long recruitId) {
-        return ResponseMessage.successMessage(resumeService.calculate(recruitId, userId));
+            @RequestBody Recruit recruit) {
+        return ResponseMessage.successMessage(resumeService.calculate(recruit, userId));
     }
 }

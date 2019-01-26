@@ -18,13 +18,13 @@ public class MyException extends RuntimeException {
     public MyException(ResultEnum resultEnum) {
         super(resultEnum.getMsg());
         this.code = resultEnum.getCode();
-        log.warn("exception!", resultEnum.getMsg());
+        log.warn("exception! {}", resultEnum.getMsg());
     }
 
     public MyException(Integer code,  String msg) {
         super(msg);
         this.code = code;
-        log.warn("exception!", msg);
+        log.warn("exception! {}", msg);
     }
 
 }

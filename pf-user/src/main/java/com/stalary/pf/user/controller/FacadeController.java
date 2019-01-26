@@ -5,7 +5,6 @@
  */
 package com.stalary.pf.user.controller;
 
-import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.stalary.pf.user.annotation.LoginRequired;
 import com.stalary.pf.user.client.MessageClient;
 import com.stalary.pf.user.data.constant.Constant;

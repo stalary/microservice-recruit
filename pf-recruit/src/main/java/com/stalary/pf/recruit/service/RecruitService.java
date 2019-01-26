@@ -5,6 +5,7 @@ import com.stalary.lightmqclient.facade.Producer;
 import com.stalary.pf.recruit.client.ResumeClient;
 import com.stalary.pf.recruit.client.UserClient;
 import com.stalary.pf.recruit.data.constant.Constant;
+import com.stalary.pf.recruit.data.dto.RecruitDto;
 import com.stalary.pf.recruit.data.dto.SendResume;
 import com.stalary.pf.recruit.data.dto.User;
 import com.stalary.pf.recruit.data.dto.UserInfo;
@@ -167,7 +168,10 @@ public class RecruitService extends BaseService<RecruitEntity, RecruitRepo> {
                 userInfoList.forEach(userInfo -> {
                     // 公司和职位全匹配的在前面
                     Candidate candidate = Candidate.init(userInfo);
-                    Integer rate = resumeClient.getRate(userInfo.getUserId(), recruit.getId()).getData();
+                    RecruitDto recruitDto = new RecruitDto();
+                    recruitDto.setId(recruit.getId());
+                    recruitDto.setSkillList(recruit.getSkillList());
+                    Integer rate = resumeClient.getRate(userInfo.getUserId(), recruitDto).getData();
                     candidate.setRate(rate == null ? 0 : rate);
                     resultList.add(candidate);
                 });
