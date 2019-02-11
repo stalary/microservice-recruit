@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @FeignClient(name = "push", url = "${push.server}")
 @Component
-@RefreshScope
 public interface PushClient {
 
     @GetMapping("/push/send")

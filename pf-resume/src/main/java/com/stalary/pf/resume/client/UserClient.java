@@ -17,6 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Component
 public interface UserClient {
 
-    @GetMapping("/user")
+    @GetMapping("/user/info")
     ResponseMessage<UserInfo> getUserInfo(@RequestParam("userId") Long userId);
 }

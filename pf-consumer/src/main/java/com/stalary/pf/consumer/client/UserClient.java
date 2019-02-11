@@ -15,10 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @FeignClient(name = "user", url = "${user.server}")
 @Component
-@RefreshScope
 public interface UserClient {
 
-    @GetMapping("/user")
+    @GetMapping("/user/info")
     ResponseMessage<UserInfo> getUserInfo(@RequestParam("userId") Long userId);
 
     @GetMapping("/user/email")

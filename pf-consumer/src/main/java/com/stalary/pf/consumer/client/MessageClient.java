@@ -23,12 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @FeignClient(name = "message", url = "${message.server}")
 @Component
-@RefreshScope
 public interface MessageClient {
 
+    /** 存储站内信 **/
     @PostMapping("/message/save")
     void saveMessage(@RequestBody Message message);
 
+    /** 获取未读站内信数量 **/
     @GetMapping("/message/count/not")
     ResponseMessage<Integer> getNotReadCount(@RequestParam("userId") Long userId);
 }

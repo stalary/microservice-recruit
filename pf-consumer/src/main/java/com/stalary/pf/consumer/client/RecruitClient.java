@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @FeignClient(name = "recruit", url = "${recruit.server}")
 @Component
-@RefreshScope
 public interface RecruitClient {
 
-    @GetMapping("/recruit")
+    @GetMapping("/recruit/one")
     ResponseMessage<Recruit> getRecruit(@RequestParam("recruitId") Long recruitId);
 }

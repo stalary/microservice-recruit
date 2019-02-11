@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * LoginVo
+ * @model LoginVo
  * @description 登陆对象
  * @field token 登陆返回的token
  * @field role 角色

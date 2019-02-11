@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @Slf4j
 @RequestMapping("/message")
-public class FacadeController {
+public class MessageController {
 
     @Resource
     private MessageService messageService;
@@ -29,10 +29,10 @@ public class FacadeController {
     /**
      * @param message 站内信
      * @return Message 站内信
-     * @method postMessage 推送一条站内信，可以供前端群发站内信使用
+     * @method saveMessage 存储站内信
      **/
-    @PostMapping
-    public ResponseMessage postMessage(
+    @PostMapping("/save")
+    public ResponseMessage saveMessage(
             @RequestBody MessageEntity message) {
         log.info("message: " + message);
         return ResponseMessage.successMessage(messageService.save(message));
@@ -77,5 +77,11 @@ public class FacadeController {
             @RequestParam Long userId) {
         messageService.sendCount(userId);
         return ResponseMessage.successMessage();
+    }
+
+    @GetMapping("/count/not")
+    public ResponseMessage getNotReadCount(
+            @RequestParam Long userId) {
+        return ResponseMessage.successMessage(messageService.findNotRead(userId).size());
     }
 }

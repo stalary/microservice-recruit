@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2018/06/07
  */
 @Service
-@ServerEndpoint("/message/{userId}")
+@ServerEndpoint("/push/ws/{userId}")
 @Slf4j
 @Data
 public class WebSocketService {

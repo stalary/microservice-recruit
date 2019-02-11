@@ -38,3 +38,10 @@ spring:
 logging:
   level:
     com.stalary.pf.outside.client: DEBUG # feign日志
+com:
+  stalary:
+    easydoc:
+      name: pf-outside
+      description: pf-outside
+      source: false
+      path: com.stalary.pf.outside

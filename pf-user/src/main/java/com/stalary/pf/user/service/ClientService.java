@@ -81,7 +81,7 @@ public class ClientService {
             if (StringUtils.isEmpty(code)) {
                 throw new MyException(ResultEnum.CODE_EXPIRE);
             }
-            if (!user.getCode().equals(code)) {
+            if (!code.equals(user.getCode())) {
                 throw new MyException(ResultEnum.CODE_ERROR);
             }
             response = userCenterClient.register(projectInfo.getKey(), user);
@@ -90,10 +90,7 @@ public class ClientService {
         } else {
             log.warn("postUser type " + type + " error");
         }
-        if (response.isSuccess()) {
-            // 当修改密码后更新缓存,缓存7天
-            redis.opsForValue().set(Constant.getKey(RedisKeys.USER_TOKEN, response.getData()), JSONObject.toJSONString(user), 7, TimeUnit.DAYS);
-        } else {
+        if (!response.isSuccess()) {
             throw new MyException(response.getCode(), response.getMsg());
         }
         return response;

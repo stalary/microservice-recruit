@@ -43,8 +43,8 @@ public class MessageService {
     /**
      * 查找未读通知的数量
      **/
-    public List<MessageEntity> findNotRead(Long toId) {
-        return repo.findByToIdAndReadState(toId, false);
+    public List<MessageEntity> findNotRead(Long userId) {
+        return repo.findByToIdAndReadState(userId, false);
     }
 
     public void read(Long id, Long userId) {

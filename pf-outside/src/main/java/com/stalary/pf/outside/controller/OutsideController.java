@@ -19,14 +19,15 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * FacadeController
+ * OutsideController
  *
+ * @description 外部调用接口
  * @author lirongqian
  * @since 2018/12/31
  */
 @RestController
 @RequestMapping("/outside")
-public class FacadeController {
+public class OutsideController {
 
     @Resource
     private SmsService smsService;

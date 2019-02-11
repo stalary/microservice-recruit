@@ -1,8 +1,3 @@
-/**
- * @(#)FacadeController.java, 2019-01-01.
- *
- * Copyright 2019 Stalary.
- */
 package com.stalary.pf.user.controller;
 
 import com.stalary.pf.user.annotation.LoginRequired;
@@ -24,14 +19,14 @@ import javax.annotation.Resource;
 import java.util.Map;
 
 /**
- * FacadeController
- *
+ * UserController
+ * @description 用户相关接口
  * @author lirongqian
  * @since 2019/01/01
  */
 @RestController
 @RequestMapping("/user")
-public class FacadeController {
+public class UserController {
 
     @Resource
     private UserInfoService userInfoService;
@@ -68,7 +63,6 @@ public class FacadeController {
         String token = responseMessage.getData().toString();
         User getUser = clientService.getUser(token);
         LoginVo loginVo = new LoginVo(token, getUser.getRole(), getUser.getId(), getUser.getFirstId());
-        // 向前端推送消息数量
         messageClient.sendCount(getUser.getId());
         return ResponseMessage.successMessage(loginVo);
     }
@@ -91,7 +85,6 @@ public class FacadeController {
     @GetMapping("/logout")
     @LoginRequired
     public ResponseMessage logout() {
-        // 在拦截器中进行删除操作
         return ResponseMessage.successMessage("退出成功");
     }
 
@@ -190,6 +183,35 @@ public class FacadeController {
         return ResponseMessage.successMessage(clientService.getUser(token));
     }
 
+    /**
+     * @method getSendList 查看个人投递列表
+     * @return SendInfo 投递信息
+     **/
+    @GetMapping("/send")
+    @LoginRequired
+    public ResponseMessage getSendList() {
+        return ResponseMessage.successMessage(userInfoService.getSendList());
+    }
+
+    /**
+     * @method getReceiveList 查看获取的简历列表
+     * @return ReceiveInfo 简历信息
+     **/
+    @GetMapping("/receive")
+    @LoginRequired
+    public ResponseMessage getReceiveList() {
+        return ResponseMessage.successMessage(userInfoService.getReceiveList());
+    }
+
+    @GetMapping("/recommend")
+    public ResponseMessage getRecommendUser(
+            @RequestParam String company,
+            @RequestParam String job) {
+        return ResponseMessage.successMessage(userInfoService.getUserInfoByCompanyOrJob(company, job));
+    }
+
+    ///////////////////////// 内部服务使用的接口 //////////////////////////////////
+
     @PostMapping("/avatar")
     public ResponseMessage uploadAvatar(
             @RequestBody UploadAvatar uploadAvatar) {
@@ -210,33 +232,6 @@ public class FacadeController {
     @GetMapping("/userId")
     public ResponseMessage getUserById(@RequestParam Long userId) {
         return ResponseMessage.successMessage(clientService.getUser(userId));
-    }
-
-    /**
-     * @method getSendList 查看个人投递列表
-     * @return SendInfo 投递信息
-     **/
-    @GetMapping("/send")
-    @LoginRequired
-    public ResponseMessage getSendList() {
-        return ResponseMessage.successMessage(userInfoService.getSendList());
-    }
-
-    /**
-     * @method getReceiveList 查看获取的简历列表
-     * @return
-     **/
-    @GetMapping("/receive")
-    @LoginRequired
-    public ResponseMessage getReceiveList() {
-        return ResponseMessage.successMessage(userInfoService.getReceiveList());
-    }
-
-    @GetMapping("/recommend")
-    public ResponseMessage getRecommendUser(
-            @RequestParam String company,
-            @RequestParam String job) {
-        return ResponseMessage.successMessage(userInfoService.getUserInfoByCompanyOrJob(company, job));
     }
 
 }

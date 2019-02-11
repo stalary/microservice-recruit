@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @FeignClient(name = "resume", url = "${resume.server}")
 @Component
-@RefreshScope
 public interface ResumeClient {
 
     @PostMapping("/resume/handle")

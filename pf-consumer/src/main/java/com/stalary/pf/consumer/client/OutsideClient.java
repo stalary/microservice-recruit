@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @FeignClient(name = "outside", url = "${outside.server}")
 @Component
-@RefreshScope
 public interface OutsideClient {
 
     @PostMapping("/outside/email")

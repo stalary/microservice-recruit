@@ -97,6 +97,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.stalary</groupId>
+            <artifactId>easy-doc</artifactId>
+            <version>0.1.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -104,6 +109,23 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.stalary</groupId>
+                <artifactId>easydoc-maven-plugin</artifactId>
+                <version>0.1.0</version>
+                <!-- -Dpath可以替代 -->
+                <configuration>
+                    <path>com.stalary.pf.outside</path>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>save</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

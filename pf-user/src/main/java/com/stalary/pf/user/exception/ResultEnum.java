@@ -15,7 +15,7 @@ public enum ResultEnum {
 
     CODE_ERROR(1002, "短信验证码错误"),
 
-    CODE_EXPIRE(1002, "短信验证码已过期，请重新输入"),
+    CODE_EXPIRE(1003, "短信验证码已过期，请重新输入"),
 
     // 2开头为第三方接口的错误
     SEND_NOTE_ERROR(2001, "发送短信失败"),
