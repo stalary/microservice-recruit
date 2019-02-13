@@ -12,11 +12,13 @@ import com.stalary.pf.recruit.data.dto.UserInfo;
 import com.stalary.pf.recruit.data.entity.CompanyEntity;
 import com.stalary.pf.recruit.data.entity.RecruitEntity;
 import com.stalary.pf.recruit.data.vo.*;
+import com.stalary.pf.recruit.exception.ExceptionThreadFactory;
 import com.stalary.pf.recruit.exception.MyException;
 import com.stalary.pf.recruit.exception.ResultEnum;
 import com.stalary.pf.recruit.repo.CompanyRepo;
 import com.stalary.pf.recruit.repo.RecruitRepo;
 import com.stalary.pf.recruit.util.RecruitUtil;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -29,6 +31,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -59,6 +64,17 @@ public class RecruitService {
 
     @Resource
     private CompanyRepo companyRepo;
+
+    private ExecutorService exec = new ThreadPoolExecutor(
+            3,
+            10,
+            10,
+            TimeUnit.SECONDS,
+            new ArrayBlockingQueue<>(50),
+            new ExceptionThreadFactory(RecruitService.this.getClass().getSimpleName(), false),
+            // 达到最大容量后，直接抛出异常(服务降级)
+            new ThreadPoolExecutor.AbortPolicy()
+    );
 
     /**
      * @param key  查询关键字
@@ -116,18 +132,23 @@ public class RecruitService {
         if (StringUtils.isBlank(key)) {
             recruitList = recruitRepo.findAll();
             recruitList.forEach(RecruitEntity::deserializeFields);
-            if (!recruitList.isEmpty()) {
-                Map<String, String> redisMap = recruitList
-                        .stream()
-                        .collect(Collectors.toMap(r -> String.valueOf(r.getId()), JSONObject::toJSONString));
-                redisHash.putAll(Constant.RECRUIT_REDIS_PREFIX, redisMap);
-                // 缓存七天
-                redis.expire(Constant.RECRUIT_REDIS_PREFIX, 7, TimeUnit.DAYS);
-            }
+            cacheRecruit(recruitList);
             return recruitList;
         }
         // 由于做全量缓存，所以模糊查询时不进行缓存
         return recruitRepo.findByTitleIsLike("%" + key + "%");
+    }
+
+    private void cacheRecruit(List<RecruitEntity> recruitList) {
+        if (!recruitList.isEmpty()) {
+            HashOperations<String, String, String> redisHash = redis.opsForHash();
+            Map<String, String> redisMap = recruitList
+                    .stream()
+                    .collect(Collectors.toMap(r -> String.valueOf(r.getId()), JSONObject::toJSONString));
+            redisHash.putAll(Constant.RECRUIT_REDIS_PREFIX, redisMap);
+            // 缓存七天
+            redis.expire(Constant.RECRUIT_REDIS_PREFIX, 7, TimeUnit.DAYS);
+        }
     }
 
     /**
@@ -157,11 +178,12 @@ public class RecruitService {
         recruit.serializeFields();
         RecruitEntity save = recruitRepo.save(recruit);
         save.deserializeFields();
-        // 写入缓存
-        HashOperations<String, String, String> redisHash = redis.opsForHash();
-        redisHash.put(Constant.RECRUIT_REDIS_PREFIX, String.valueOf(save.getId()), JSONObject.toJSONString(save));
-        // 缓存七天
-        redis.expire(Constant.RECRUIT_REDIS_PREFIX, 7, TimeUnit.DAYS);
+        // 异步刷新全量缓存
+        exec.execute(() -> {
+            List<RecruitEntity> recruitList = recruitRepo.findAll();
+            recruitList.forEach(RecruitEntity::deserializeFields);
+            cacheRecruit(recruitList);
+        });
         return save;
     }
 
@@ -228,12 +250,13 @@ public class RecruitService {
      * 添加公司
      **/
     public CompanyEntity addCompany(CompanyEntity entity) {
-        // 首先写入缓存，然后存到数据库
-        HashOperations<String, String, String> redisHash = redis.opsForHash();
-        redisHash.put(Constant.COMPANY_REDIS_PREFIX, String.valueOf(entity.getId()), JSONObject.toJSONString(entity));
-        // 缓存七天
-        redis.expire(Constant.COMPANY_REDIS_PREFIX, 7, TimeUnit.DAYS);
-        return companyRepo.save(entity);
+        CompanyEntity save = companyRepo.save(entity);
+        // 异步更新全量缓存
+        exec.execute(() -> {
+            List<CompanyEntity> companyList = companyRepo.findAll();
+            cacheCompany(companyList);
+        });
+        return save;
     }
 
     public Map<String, Object> getAllCompanyByPage(int page, int size) {
@@ -272,18 +295,23 @@ public class RecruitService {
         if (StringUtils.isBlank(key)) {
             companyList = companyRepo.findAll();
             // 未命中缓存时查询到数据时插入缓存中
-            if (!companyList.isEmpty()) {
-                Map<String, String> redisMap = companyList
-                        .stream()
-                        .collect(Collectors.toMap(c -> String.valueOf(c.getId()), JSONObject::toJSONString));
-                redisHash.putAll(Constant.COMPANY_REDIS_PREFIX, redisMap);
-                // 缓存七天
-                redis.expire(Constant.COMPANY_REDIS_PREFIX, 7, TimeUnit.DAYS);
-            }
+            cacheCompany(companyList);
             return companyList;
         }
         // 由于做全量缓存，所以模糊查询时不进行缓存
         return companyRepo.findByNameIsLike("%" + key + "%");
+    }
+
+    public void cacheCompany(List<CompanyEntity> companyList) {
+        if (!companyList.isEmpty()) {
+            HashOperations<String, String, String> redisHash = redis.opsForHash();
+            Map<String, String> redisMap = companyList
+                    .stream()
+                    .collect(Collectors.toMap(c -> String.valueOf(c.getId()), JSONObject::toJSONString));
+            redisHash.putAll(Constant.COMPANY_REDIS_PREFIX, redisMap);
+            // 缓存七天
+            redis.expire(Constant.COMPANY_REDIS_PREFIX, 7, TimeUnit.DAYS);
+        }
     }
 
     public CompanyAndRecruit getCompanyInfo(Long id) {
