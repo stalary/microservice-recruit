@@ -184,7 +184,7 @@ public class RecruitService {
             return entries
                     .entrySet()
                     .stream()
-                    .map(e -> JSONObject.parseObject(e.getKey(), RecruitEntity.class))
+                    .map(e -> JSONObject.parseObject(e.getValue(), RecruitEntity.class))
                     .filter(e -> e.getHrId().equals(userId))
                     .collect(Collectors.toList());
         } else {

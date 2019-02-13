@@ -108,7 +108,8 @@ public class ClientService {
             ResponseMessage<User> response = userCenterClient.getUserInfo(token, projectInfo.getKey());
             if (response.isSuccess()) {
                 User user = response.getData();
-                redis.opsForValue().set(redisKey, JSONObject.toJSONString(user), 7, TimeUnit.DAYS);
+                // token是临时的，所以只缓存一天
+                redis.opsForValue().set(redisKey, JSONObject.toJSONString(user), 1, TimeUnit.DAYS);
                 UserHolder.set(user);
                 return user;
             } else {

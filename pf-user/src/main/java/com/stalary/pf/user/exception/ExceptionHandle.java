@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 /**
  * @author Stalary
  * @description
@@ -22,8 +25,10 @@ public class ExceptionHandle {
             MyException myException = (MyException) e;
             return ResponseMessage.error(myException.getCode(), myException.getMessage());
         } else {
-            log.error("[系统异常] ", e);
-            return ResponseMessage.error(500, "user 运行时异常！");
+            log.error("[系统异常]", e);
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw));
+            return ResponseMessage.error(500, "user 运行时异常！" + sw.toString());
         }
     }
 }

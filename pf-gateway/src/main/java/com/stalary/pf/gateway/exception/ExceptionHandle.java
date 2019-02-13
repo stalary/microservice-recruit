@@ -99,7 +99,7 @@ public class ExceptionHandle implements ErrorWebExceptionHandler {
         } else if (ex instanceof ResponseStatusException) {
             ResponseStatusException responseStatusException = (ResponseStatusException) ex;
             httpStatus = responseStatusException.getStatus();
-            body = responseStatusException.getMessage();
+            body = JSONObject.toJSONString(ResponseMessage.error(500, ex.getMessage()));
         } else {
             httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
             body = JSONObject.toJSONString(ResponseMessage.error(500, ex.getMessage()));
