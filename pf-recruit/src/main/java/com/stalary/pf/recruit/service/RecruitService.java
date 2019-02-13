@@ -389,7 +389,7 @@ public class RecruitService {
         UserInfo userInfo = userClient.getUserInfo(userId).getData();
         List<String> jobList = str2List(userInfo.getIntentionJob());
         List<String> companyList = str2List(userInfo.getIntentionCompany());
-        List<RecruitEntity> recruitList = recruitRepo.findByTitleIn(jobList);
+        List<RecruitEntity> recruitList = findRecruitByTitleIn(jobList);
         // 当推荐的职位所在公司同时为意向公司时，排名考前
         List<RecommendRecruit> firstList = new ArrayList<>();
         List<RecommendRecruit> secondList = new ArrayList<>();
@@ -407,6 +407,20 @@ public class RecruitService {
         });
         firstList.addAll(secondList);
         return firstList;
+    }
+
+    private List<RecruitEntity> findRecruitByTitleIn(List<String> jobList) {
+        HashOperations<String, String, String> redisHash = redis.opsForHash();
+        Map<String, String> entries = redisHash.entries(Constant.RECRUIT_REDIS_PREFIX);
+        if (!entries.isEmpty()) {
+            return entries
+                    .entrySet()
+                    .stream()
+                    .map(e -> JSONObject.parseObject(e.getValue(), RecruitEntity.class))
+                    .filter(r -> jobList.contains(r.getTitle()))
+                    .collect(Collectors.toList());
+        }
+        return recruitRepo.findByTitleIn(jobList);
     }
 
     private List<String> str2List(String str) {
