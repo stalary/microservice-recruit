@@ -72,7 +72,7 @@
                     <maintainer>stalary@163.com</maintainer>
                     <baseImage>openjdk:8-jdk-alpine</baseImage>
                     <imageTags>
-                        <imageTag>0.0.2</imageTag>
+                        <imageTag>0.0.3</imageTag>
                         <imageTag>latest</imageTag>
                     </imageTags>
                     <forceTags>true</forceTags>

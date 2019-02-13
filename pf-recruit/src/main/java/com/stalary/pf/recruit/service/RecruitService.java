@@ -70,7 +70,7 @@ public class RecruitService {
     public Map<String, Object> getAllRecruit(String key, int page, int size) {
         Pair<Integer, Integer> pair = RecruitUtil.getStartAndEnd(page, size);
         List<RecruitEntity> allRecruit = getAllRecruit(key);
-        List<RecruitEntity> recruitList = allRecruit.subList(pair.getLeft(), pair.getRight());
+        List<RecruitEntity> recruitList = allRecruit.subList(pair.getLeft(), pair.getRight() <= allRecruit.size() ? pair.getRight() : allRecruit.size());
         List<RecruitAndCompany> ret = recruitList
                 .stream()
                 .map(r -> new RecruitAndCompany(r, getCompanyById(r.getCompanyId())))
@@ -241,7 +241,7 @@ public class RecruitService {
         Pair<Integer, Integer> pair = RecruitUtil.getStartAndEnd(page, size);
         Map<String, Object> ret = new HashMap<>();
         ret.put("total", allCompany.size());
-        ret.put("companyList", allCompany.subList(pair.getLeft(), pair.getRight()));
+        ret.put("companyList", allCompany.subList(pair.getLeft(), pair.getRight() <= allCompany.size() ? pair.getRight() : allCompany.size()));
         return ret;
     }
 
