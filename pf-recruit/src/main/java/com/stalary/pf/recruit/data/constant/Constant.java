@@ -15,20 +15,20 @@ public class Constant {
 
     public static final String SPLIT = ":";
 
-    /**
-     * 投递简历
-     */
+    /** 投递简历topic **/
     public static final String SEND_RESUME = "send_resume";
 
-    /**
-     * 处理简历
-     */
+    /** 处理简历topic  **/
     public static final String HANDLE_RESUME = "handle_resume";
 
-    /**
-     * 接受方
-     */
+    /** 接受方topic **/
     public static final String RECEIVE_RESUME = "receive_resume";
+
+    /** 公司缓存前缀 **/
+    public static final String COMPANY_REDIS_PREFIX = "company";
+
+    /** 招聘信息缓存前缀 **/
+    public static final String RECRUIT_REDIS_PREFIX = "recruit";
 
     public static final Joiner JOINER = Joiner.on(SPLIT);
 

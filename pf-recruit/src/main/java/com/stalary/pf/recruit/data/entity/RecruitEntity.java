@@ -2,6 +2,7 @@ package com.stalary.pf.recruit.data.entity;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.stalary.pf.recruit.data.dto.SkillRule;
 import lombok.AllArgsConstructor;
@@ -42,14 +43,17 @@ public class RecruitEntity extends BaseEntity {
     private List<SkillRule> skillList;
 
     @JsonIgnore
+    @JSONField(serialize = false, deserialize = false)
     private String skillStr;
 
     @JsonIgnore
+    @JSONField(serialize = false, deserialize = false)
     public void serializeFields() {
         this.skillStr = JSONObject.toJSONString(skillList);
     }
 
     @JsonIgnore
+    @JSONField(serialize = false, deserialize = false)
     public void deserializeFields() {
         this.skillList = JSONObject.parseObject(skillStr, new TypeReference<List<SkillRule>>(){});
     }

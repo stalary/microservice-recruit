@@ -7,6 +7,7 @@ package com.stalary.pf.gateway.filter;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
+import com.google.common.collect.Lists;
 import com.stalary.pf.gateway.client.UserCenterClient;
 import com.stalary.pf.gateway.data.ProjectInfo;
 import com.stalary.pf.gateway.data.ResponseMessage;
@@ -26,6 +27,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -47,8 +49,8 @@ public class AuthFilter implements GlobalFilter, Ordered {
     private String projectKey;
 
     /** 需要验证登陆的接口 **/
-    @Value("${pf.authList}")
-    private List<String> authList;
+    @Value("${pf.authArray}")
+    private String[] authArray;
 
     /** 存储用户id缓存 **/
     private LoadingCache<String, String> userIdCache = Caffeine.newBuilder()
@@ -83,7 +85,8 @@ public class AuthFilter implements GlobalFilter, Ordered {
         }
         // 对需要登陆的接口进行验证
         String path = exchange.getRequest().getPath().pathWithinApplication().value();
-        if (authList.contains(path) && StringUtils.isEmpty(userId)) {
+        List<String> authList = Lists.newArrayList(authArray);
+        if (authList.contains(path) && StringUtils.isBlank(userId)) {
             throw new MyException(ResultEnum.NEED_LOGIN);
         }
         ServerHttpRequest host = exchange.getRequest().mutate().header("userId", userId).build();

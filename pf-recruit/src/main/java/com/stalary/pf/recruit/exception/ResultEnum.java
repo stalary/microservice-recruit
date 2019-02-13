@@ -13,6 +13,8 @@ public enum ResultEnum {
     // 1开头为用户有关的错误
     NEED_LOGIN(1001, "未登陆"),
 
+    RECRUIT_NOT_EXIST(1601, "招聘信息不存在"),
+
     SUCCESS(0, "成功");
 
     @Getter

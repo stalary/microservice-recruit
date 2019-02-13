@@ -2,7 +2,7 @@ package com.stalary.pf.recruit.controller;
 
 import com.stalary.pf.recruit.data.entity.CompanyEntity;
 import com.stalary.pf.recruit.data.vo.ResponseMessage;
-import com.stalary.pf.recruit.service.CompanyService;
+import com.stalary.pf.recruit.service.RecruitService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 public class CompanyController {
 
     @Resource
-    private CompanyService companyService;
+    private RecruitService recruitService;
 
     /**
      * @method allCompany 查找所有公司，分页
@@ -31,16 +31,16 @@ public class CompanyController {
     public ResponseMessage allCompany(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "4") int size) {
-        return ResponseMessage.successMessage(companyService.allCompany(page, size));
+        return ResponseMessage.successMessage(recruitService.getAllCompanyByPage(page, size));
     }
 
     /**
-     * @method allCompanyName 获取所有公司的名称，用于保存个人信息时选择意向岗位
+     * @method allCompanyName 获取所有公司的名称，用于保存个人信息时选择意向岗位，以及hr注册时选择公司
      * @return 0 公司名称列表
      **/
     @GetMapping("/name")
     public ResponseMessage allCompanyName() {
-        return ResponseMessage.successMessage(companyService.allCompanyName());
+        return ResponseMessage.successMessage(recruitService.getAllCompanyName());
     }
 
     /**
@@ -49,9 +49,10 @@ public class CompanyController {
      * @return 0 公司列表
      **/
     @GetMapping("/noPage")
+    @Deprecated
     public ResponseMessage allCompanyNoPage(
             @RequestParam(required = false, defaultValue = "") String key) {
-        return ResponseMessage.successMessage(companyService.findCompany(key));
+        return ResponseMessage.successMessage(recruitService.getAllCompany(key));
     }
 
     /**
@@ -62,7 +63,7 @@ public class CompanyController {
     @PostMapping
     public ResponseMessage addCompany(
             @RequestBody CompanyEntity company) {
-        return ResponseMessage.successMessage(companyService.save(company));
+        return ResponseMessage.successMessage(recruitService.addCompany(company));
     }
 
 
@@ -74,6 +75,6 @@ public class CompanyController {
     @GetMapping("{id}")
     public ResponseMessage getInfo(
             @PathVariable("id") Long id) {
-        return ResponseMessage.successMessage(companyService.getInfo(id));
+        return ResponseMessage.successMessage(recruitService.getCompanyInfo(id));
     }
 }

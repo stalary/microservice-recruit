@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public interface RecruitRepo extends BaseRepo<RecruitEntity, Long> {
 
-    Page<RecruitEntity> findByTitleIsLike(String key, Pageable pageable);
+    List<RecruitEntity> findByTitleIsLike(String key);
 
     List<RecruitEntity> findByHrId(Long userId);
 

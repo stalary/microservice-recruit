@@ -4,7 +4,7 @@ import com.stalary.pf.recruit.data.dto.SendResume;
 import com.stalary.pf.recruit.data.entity.RecruitEntity;
 import com.stalary.pf.recruit.data.vo.ResponseMessage;
 import com.stalary.pf.recruit.service.RecruitService;
-import com.stalary.pf.recruit.util.UserUtil;
+import com.stalary.pf.recruit.util.RecruitUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,13 +66,12 @@ public class RecruitController {
             @RequestParam(required = false, defaultValue = "") String key,
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "4") int size) {
-        return ResponseMessage.successMessage(recruitService.allRecruit(key, page, size));
+        return ResponseMessage.successMessage(recruitService.getAllRecruit(key, page, size));
     }
 
     @GetMapping("/one")
     public ResponseMessage getRecruitById(@RequestParam Long recruitId) {
-        RecruitEntity recruit = recruitService.findOne(recruitId);
-        recruit.deserializeFields();
+        RecruitEntity recruit = recruitService.getRecruitById(recruitId);
         return ResponseMessage.successMessage(recruit);
     }
 
@@ -82,13 +81,13 @@ public class RecruitController {
      **/
     @GetMapping("/name")
     public ResponseMessage allRecruitName() {
-        return ResponseMessage.successMessage(recruitService.allRecruitName());
+        return ResponseMessage.successMessage(recruitService.getAllRecruitName());
     }
 
     @GetMapping("/list")
     public ResponseMessage recruitList(
             @RequestParam Long userId) {
-        return ResponseMessage.successMessage(recruitService.findByUserId(userId));
+        return ResponseMessage.successMessage(recruitService.getRecruitByUserId(userId));
     }
 
     /**
@@ -109,7 +108,7 @@ public class RecruitController {
     @GetMapping("/hr")
     public ResponseMessage getHrInfo(
             HttpServletRequest request) {
-        return ResponseMessage.successMessage(recruitService.findByUserId(UserUtil.getUserId(request)));
+        return ResponseMessage.successMessage(recruitService.getRecruitByUserId(RecruitUtil.getUserId(request)));
     }
 
     /**
@@ -129,7 +128,7 @@ public class RecruitController {
             HttpServletRequest request,
             @RequestBody SendResume sendResume) {
         log.info("sendResume" + sendResume);
-        recruitService.postResume(UserUtil.getUserId(request), sendResume.getRecruitId(), sendResume.getTitle());
+        recruitService.postResume(RecruitUtil.getUserId(request), sendResume.getRecruitId(), sendResume.getTitle());
         return ResponseMessage.successMessage("投递成功");
     }
 
@@ -140,7 +139,7 @@ public class RecruitController {
     @GetMapping("/recommend/candidate")
     public ResponseMessage recommendCandidate(
             HttpServletRequest request) {
-        Long userId = UserUtil.getUserId(request);
+        Long userId = RecruitUtil.getUserId(request);
         return ResponseMessage.successMessage(recruitService.getRecommendCandidate(userId));
     }
 
@@ -151,7 +150,7 @@ public class RecruitController {
     @GetMapping("/recommend/job")
     public ResponseMessage recommendJob(
             HttpServletRequest request) {
-        Long userId = UserUtil.getUserId(request);
+        Long userId = RecruitUtil.getUserId(request);
         return ResponseMessage.successMessage(recruitService.getRecommendJob(userId));
     }
 }
