@@ -4,5 +4,5 @@ spring:
       config:
         server-addr: 59.111.95.232:8848
         file-extension: yml
-        shared-dataids: mysql.yml,redis.yml,printlog.yml,server.yml
-        refreshable-dataids: mysql.yml,redis.yml,server.yml
+        shared-dataids: mysql.yml,redis.yml,printlog.yml,server.yml,es.yml
+        refreshable-dataids: mysql.yml,redis.yml,server.yml,es.yml

@@ -11,12 +11,14 @@ import com.stalary.pf.user.data.constant.Constant;
 import com.stalary.pf.user.data.constant.RedisKeys;
 import com.stalary.pf.user.data.dto.Recruit;
 import com.stalary.pf.user.data.dto.UploadAvatar;
+import com.stalary.pf.user.data.entity.UserEs;
 import com.stalary.pf.user.data.entity.UserInfoEntity;
 import com.stalary.pf.user.data.vo.ReceiveInfo;
 import com.stalary.pf.user.data.vo.ReceiveResume;
 import com.stalary.pf.user.data.vo.SendInfo;
 import com.stalary.pf.user.data.vo.SendResume;
 import com.stalary.pf.user.holder.UserHolder;
+import com.stalary.pf.user.repo.UserEsRepo;
 import com.stalary.pf.user.repo.UserInfoRepo;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -39,6 +41,9 @@ public class UserInfoService {
 
     @Resource(name = "userInfoRepo")
     private UserInfoRepo repo;
+
+    @Resource(name = "userEsRepo")
+    private UserEsRepo esRepo;
 
     @Resource(name = "stringRedisTemplate")
     private StringRedisTemplate redis;
@@ -65,7 +70,8 @@ public class UserInfoService {
     }
 
     public UserInfoEntity save(UserInfoEntity entity) {
-        // todo: 需要修改intentionCompany和intentionJob，逗号隔开，新增name字段
+        // 先存入es再存入mysql中
+        esRepo.save(new UserEs(entity));
         return repo.save(entity);
     }
 

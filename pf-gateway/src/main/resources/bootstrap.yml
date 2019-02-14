@@ -4,5 +4,5 @@ spring:
       config:
         server-addr: 59.111.95.232:8848
         file-extension: yml
-        shared-dataids: auth.yml,printlog.yml,server.yml,gateway.yml
-        refreshable-dataids: auth.yml,server.yml,gateway.yml
+        shared-dataids: auth.yml,printlog.yml,server.yml,gateway-dev.yml
+        refreshable-dataids: auth.yml,server.yml,gateway-dev.yml

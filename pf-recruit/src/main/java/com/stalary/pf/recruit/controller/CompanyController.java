@@ -39,6 +39,7 @@ public class CompanyController {
      * @return 0 公司名称列表
      **/
     @GetMapping("/name")
+    @Deprecated
     public ResponseMessage allCompanyName() {
         return ResponseMessage.successMessage(recruitService.getAllCompanyName());
     }
@@ -49,7 +50,6 @@ public class CompanyController {
      * @return 0 公司列表
      **/
     @GetMapping("/noPage")
-    @Deprecated
     public ResponseMessage allCompanyNoPage(
             @RequestParam(required = false, defaultValue = "") String key) {
         return ResponseMessage.successMessage(recruitService.getAllCompany(key));

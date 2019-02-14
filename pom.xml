@@ -68,13 +68,20 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>1.0.0</version>
                 <configuration>
+                    <serverId>docker-maven</serverId>
                     <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                     <maintainer>stalary@163.com</maintainer>
                     <baseImage>openjdk:8-jdk-alpine</baseImage>
+                    <!-- 设置打包时的tag -->
                     <imageTags>
-                        <imageTag>0.0.3</imageTag>
+                        <imageTag>0.0.1</imageTag>
                         <imageTag>latest</imageTag>
                     </imageTags>
+                    <!-- 打包完毕后推送镜像 -->
+                    <pushImage>true</pushImage>
+                    <!-- 推送tag -->
+                    <pushImageTag>true</pushImageTag>
+                    <!-- 覆盖tag -->
                     <forceTags>true</forceTags>
                     <entryPoint>["java", "-jar", "-Duser.timezone=GMT+08", "/${project.build.finalName}.jar"]</entryPoint>
                     <resources>
