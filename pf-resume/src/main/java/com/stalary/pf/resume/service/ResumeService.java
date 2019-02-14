@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -102,6 +103,15 @@ public class ResumeService extends BaseService<Resume, ResumeRepo> {
     }
 
     /**
+     * 批量获取简历分数
+     **/
+    public List<ResumeRate> batchCalculate(GetResumeRate getResumeRate) {
+        List<ResumeRate> ret = new ArrayList<>();
+        getResumeRate.getGetList().forEach(g -> ret.add(new ResumeRate(g.getUserId(), g.getRecruit().getId(), calculate(g.getRecruit(), g.getUserId()))));
+        return ret;
+    }
+
+    /**
      * 简历打分
      *
      */
@@ -109,7 +119,8 @@ public class ResumeService extends BaseService<Resume, ResumeRepo> {
         List<SkillRule> skillRuleList = recruit.getSkillList();
         Resume resume = repo.findByUserId(userId);
         if (resume == null) {
-            throw new MyException(ResultEnum.RESUME_NOT_EXIST);
+            // 简历不存在的默认打为0分
+            return 0;
         }
         List<Skill> skillList = resume.getSkills();
         // 求出规则表中总和

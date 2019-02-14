@@ -1,9 +1,4 @@
-/**
- * @(#)CacheConfig.java, 2018-10-22.
- * <p>
- * Copyright 2018 Youdao, Inc. All rights reserved.
- * YOUDAO PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
+
 package com.stalary.pf.recruit.config;
 
 import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;

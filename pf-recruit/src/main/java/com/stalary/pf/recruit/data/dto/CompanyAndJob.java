@@ -5,20 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 /**
- * RecruitDto
+ * CompanyAndJob
  *
  * @author lirongqian
- * @since 2019/01/20
+ * @since 2019/02/14
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecruitDto {
+public class CompanyAndJob {
 
-    private Long id;
+    private Long recruitId;
 
-    private List<SkillRule> skillList;
+    private String company;
+
+    private String job;
 }

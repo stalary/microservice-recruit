@@ -1,5 +1,6 @@
 package com.stalary.pf.resume.controller;
 
+import com.stalary.pf.resume.data.dto.GetResumeRate;
 import com.stalary.pf.resume.data.dto.Recruit;
 import com.stalary.pf.resume.data.dto.SendResume;
 import com.stalary.pf.resume.data.entity.Resume;
@@ -67,5 +68,11 @@ public class ResumeController {
             @RequestParam Long userId,
             @RequestBody Recruit recruit) {
         return ResponseMessage.successMessage(resumeService.calculate(recruit, userId));
+    }
+
+    @PostMapping("/rate/batch")
+    public ResponseMessage getRateBatch(
+            @RequestBody GetResumeRate getResumeRate) {
+        return ResponseMessage.successMessage(resumeService.batchCalculate(getResumeRate));
     }
 }

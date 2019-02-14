@@ -33,7 +33,6 @@ import java.util.Date;
  * @field createTime 创建时间
  **/
 @Data
-@AllArgsConstructor
 @Document(indexName = "user", type = "user")
 public class UserEs {
 
@@ -57,6 +56,15 @@ public class UserEs {
         this.education = entity.getEducation();
         this.intentionCompany = entity.getIntentionCompany();
         this.intentionJob = entity.getIntentionJob();
+    }
+
+    public UserEs(Long userId, String name, String school, String education, String intentionCompany, String intentionJob) {
+        this.userId = userId;
+        this.name = name;
+        this.school = school;
+        this.education = education;
+        this.intentionCompany = intentionCompany;
+        this.intentionJob = intentionJob;
     }
 
     public UserEs() {

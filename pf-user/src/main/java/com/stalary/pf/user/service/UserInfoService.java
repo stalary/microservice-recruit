@@ -9,6 +9,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.stalary.pf.user.client.RecruitClient;
 import com.stalary.pf.user.data.constant.Constant;
 import com.stalary.pf.user.data.constant.RedisKeys;
+import com.stalary.pf.user.data.dto.CompanyAndJob;
+import com.stalary.pf.user.data.dto.RecommendUser;
 import com.stalary.pf.user.data.dto.Recruit;
 import com.stalary.pf.user.data.dto.UploadAvatar;
 import com.stalary.pf.user.data.entity.UserEs;
@@ -75,6 +77,10 @@ public class UserInfoService {
         return repo.save(entity);
     }
 
+    public void saveEs(UserEs userEs) {
+        esRepo.save(userEs);
+    }
+
     /**
      * 获取投递简历列表
      */
@@ -106,7 +112,9 @@ public class UserInfoService {
         return new ReceiveInfo(ret);
     }
 
-    public List<UserInfoEntity> getUserInfoByCompanyOrJob(String company, String job) {
-        return repo.findByIntentionCompanyContainsOrIntentionJobContains(company, job);
+    public List<RecommendUser> getRecommendUser(List<CompanyAndJob> list) {
+        List<RecommendUser> ret = new ArrayList<>();
+        list.forEach(c -> ret.add(new RecommendUser(c.getRecruitId(), esRepo.findByIntentionCompanyOrIntentionJob(c.getCompany(), c.getJob()))));
+        return ret;
     }
 }

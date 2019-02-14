@@ -1,9 +1,4 @@
-/**
- * @(#)PrefixRedisSerializer.java, 2018-10-21.
- * <p>
- * Copyright 2018 Youdao, Inc. All rights reserved.
- * YOUDAO PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
+
 package com.stalary.pf.user.config;
 
 import com.stalary.pf.user.data.constant.Constant;

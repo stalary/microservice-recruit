@@ -1,5 +1,6 @@
 package com.stalary.pf.user;
 
+import com.stalary.pf.user.data.entity.UserEs;
 import com.stalary.pf.user.service.UserInfoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +25,9 @@ public class BaseTest {
 
     @Test
     public void test() {
-//        userService.save(new User(1L, "李荣谦", "man", "阿里巴巴,网易,腾讯", "山东财经大学", "本科", "java开发工程师,大数据开发工程师,分布式架构师"));
+        UserInfoService.saveEs(new UserEs(2L, "郑亚雯", "山东财经大学", "本科", "阿里巴巴,网易,腾讯","前端开发工程师"));
+        UserInfoService.saveEs(new UserEs(9L, "王树广", "山东财经大学", "本科", "百度","java开发工程师"));
+        UserInfoService.saveEs(new UserEs(3L, "邢奥林", "山东财经大学", "本科", "网易","java开发工程师,测试工程师"));
 //        userService.save(new User(2L,  "郑亚雯", "woman", "网易", "山东财经大学", "本科", "前端工程师"));
 //        userService.save(new User(3L,  "王树广", "man", "百度", "山东财经大学", "本科", "java开发工程师"));
 //        userService.save(new User(4L, "邢奥林", "woman", "网易", "山东财经大学", "本科", "java开发工程师,测试工程师"));

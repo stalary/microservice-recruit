@@ -31,13 +31,11 @@ public class UserInfo {
 
     private String name;
 
-    private String sex;
-
-    private String intentionCompany;
-
     private String school;
 
     private String education;
+
+    private String intentionCompany;
 
     private String intentionJob;
 }

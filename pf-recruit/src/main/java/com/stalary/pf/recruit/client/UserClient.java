@@ -1,5 +1,6 @@
 package com.stalary.pf.recruit.client;
 
+import com.stalary.pf.recruit.data.dto.RecommendUser;
 import com.stalary.pf.recruit.data.dto.User;
 import com.stalary.pf.recruit.data.dto.UserInfo;
 import com.stalary.pf.recruit.data.vo.ResponseMessage;
@@ -23,9 +24,8 @@ public interface UserClient {
     ResponseMessage<User> getUser(@RequestParam("userId") Long userId);
 
     @GetMapping("/user/recommend")
-    ResponseMessage<List<UserInfo>> getRecommendCandidate(
-            @RequestParam("company") String company,
-            @RequestParam("job") String job);
+    ResponseMessage<List<RecommendUser>> getRecommendCandidate(
+            @RequestParam("param") String param);
 
     @GetMapping("/user/info")
     ResponseMessage<UserInfo> getUserInfo(@RequestParam("userId") Long userId);

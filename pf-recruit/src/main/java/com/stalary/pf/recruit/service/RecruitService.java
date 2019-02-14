@@ -5,10 +5,8 @@ import com.stalary.lightmqclient.facade.Producer;
 import com.stalary.pf.recruit.client.ResumeClient;
 import com.stalary.pf.recruit.client.UserClient;
 import com.stalary.pf.recruit.data.constant.Constant;
-import com.stalary.pf.recruit.data.dto.RecruitDto;
-import com.stalary.pf.recruit.data.dto.SendResume;
-import com.stalary.pf.recruit.data.dto.User;
-import com.stalary.pf.recruit.data.dto.UserInfo;
+import com.stalary.pf.recruit.data.dto.*;
+import com.stalary.pf.recruit.data.entity.BaseEntity;
 import com.stalary.pf.recruit.data.entity.CompanyEntity;
 import com.stalary.pf.recruit.data.entity.RecruitEntity;
 import com.stalary.pf.recruit.data.vo.*;
@@ -354,29 +352,72 @@ public class RecruitService {
         List<RecommendCandidate> ret = new ArrayList<>();
         // 获取当前用户下的的所有职位
         List<RecruitEntity> recruitList = getRecruitByUserId(userId);
-        recruitList.forEach(recruit -> {
-            CompanyEntity company = getCompanyById(recruit.getCompanyId());
-            if (company != null) {
-                // 首先通过职位和公司名称去匹配用户
-                String job = recruit.getTitle();
-                String companyName = company.getName();
-                List<UserInfo> userInfoList = userClient.getRecommendCandidate(companyName, job).getData();
-                List<Candidate> resultList = new ArrayList<>();
-                userInfoList.forEach(userInfo -> {
-                    // 公司和职位全匹配的在前面
-                    Candidate candidate = Candidate.init(userInfo);
+        // 获取职位对应的公司
+        List<CompanyAndJob> companyAndJobList = recruitList
+                .stream()
+                .map(r -> {
+                    CompanyEntity company = getCompanyById(r.getCompanyId());
+                    if (company != null) {
+                        return new CompanyAndJob(r.getId(), company.getName(), r.getTitle());
+                    } else {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        // 生成招聘信息map
+        Map<Long, RecruitEntity> recruitMap = recruitList
+                .stream()
+                .collect(Collectors.toMap(BaseEntity::getId, r -> r));
+        // 获取所有职位和公司对应的候选人列表
+        List<RecommendUser> recommendCandidate = userClient.getRecommendCandidate(JSONObject.toJSONString(companyAndJobList)).getData();
+        List<GetResumeRate.GetRate> getRateList = new ArrayList<>();
+        recommendCandidate.forEach(c -> {
+            long recruitId = c.getRecruitId();
+            c.getUserList().forEach(u -> {
+                RecruitEntity recruit = recruitMap.get(recruitId);
+                if (recruit != null) {
                     RecruitDto recruitDto = new RecruitDto();
                     recruitDto.setId(recruit.getId());
                     recruitDto.setSkillList(recruit.getSkillList());
-                    Integer rate = resumeClient.getRate(userInfo.getUserId(), recruitDto).getData();
-                    candidate.setRate(rate == null ? 0 : rate);
-                    resultList.add(candidate);
-                });
-                // 按照简历匹配程度排序
-                if (!resultList.isEmpty()) {
-                    resultList.sort(Comparator.comparing(Candidate::getRate).reversed());
+                    getRateList.add(new GetResumeRate.GetRate(u.getUserId(), recruitDto));
                 }
-                ret.add(new RecommendCandidate(job, resultList));
+            });
+        });
+        // 获取所有候选人对应的简历匹配分数
+        List<ResumeRate> rateList = resumeClient.getRate(new GetResumeRate(getRateList)).getData();
+        recommendCandidate.forEach(r -> {
+            Long recruitId = r.getRecruitId();
+            // 过滤出当前职位对应的候选人分数
+            List<ResumeRate> filterRateList = rateList
+                    .stream()
+                    .filter(resume -> resume.getRecruitId().equals(recruitId))
+                    .collect(Collectors.toList());
+            RecruitEntity recruit = recruitMap.get(recruitId);
+            if (recruit != null) {
+                List<Candidate> candidateList = new ArrayList<>();
+                String title = recruit.getTitle();
+                r.getUserList().forEach((userInfo -> {
+                    // 选中当前候选人的分数
+                    Optional<ResumeRate> resumeRate = filterRateList
+                            .stream()
+                            .filter(rate -> rate.getUserId().equals(userInfo.getUserId()))
+                            .findFirst();
+                    if (resumeRate.isPresent()) {
+                        Candidate candidate = Candidate.init(userInfo);
+                        Integer rate = resumeRate.get().getRate();
+                        // 过滤掉rate为0的
+                        if (rate > 0) {
+                            candidate.setRate(resumeRate.get().getRate());
+                            candidateList.add(candidate);
+                        }
+                    }
+                }));
+                // 按照简历匹配程度排序
+                if (!candidateList.isEmpty()) {
+                    candidateList.sort(Comparator.comparing(Candidate::getRate).reversed());
+                }
+                ret.add(new RecommendCandidate(title, candidateList));
             }
         });
         return ret;

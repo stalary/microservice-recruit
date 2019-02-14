@@ -1,12 +1,11 @@
 package com.stalary.pf.user.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.stalary.pf.user.annotation.LoginRequired;
 import com.stalary.pf.user.client.MessageClient;
 import com.stalary.pf.user.data.constant.Constant;
-import com.stalary.pf.user.data.dto.Applicant;
-import com.stalary.pf.user.data.dto.HR;
-import com.stalary.pf.user.data.dto.UploadAvatar;
-import com.stalary.pf.user.data.dto.User;
+import com.stalary.pf.user.data.dto.*;
 import com.stalary.pf.user.data.entity.UserInfoEntity;
 import com.stalary.pf.user.data.vo.LoginVo;
 import com.stalary.pf.user.data.vo.ResponseMessage;
@@ -16,6 +15,7 @@ import com.stalary.pf.user.service.UserInfoService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -203,13 +203,6 @@ public class UserController {
         return ResponseMessage.successMessage(userInfoService.getReceiveList());
     }
 
-    @GetMapping("/recommend")
-    public ResponseMessage getRecommendUser(
-            @RequestParam String company,
-            @RequestParam String job) {
-        return ResponseMessage.successMessage(userInfoService.getUserInfoByCompanyOrJob(company, job));
-    }
-
     ///////////////////////// 内部服务使用的接口 //////////////////////////////////
 
     @PostMapping("/avatar")
@@ -221,6 +214,14 @@ public class UserController {
         } else {
             return ResponseMessage.failedMessage("上传头像失败");
         }
+    }
+
+    @GetMapping("/recommend")
+    public ResponseMessage getRecommendUser(
+            @RequestParam String param) {
+        List<CompanyAndJob> companyAndJobList = JSONObject.parseObject(param, new TypeReference<List<CompanyAndJob>>() {
+        });
+        return ResponseMessage.successMessage(userInfoService.getRecommendUser(companyAndJobList));
     }
 
     @GetMapping("/email")

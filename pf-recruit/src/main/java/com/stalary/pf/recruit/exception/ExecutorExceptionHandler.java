@@ -1,9 +1,4 @@
-/**
- * @(#)ExecutorExceptionHandler.java, 2019-02-12.
- *
- * Copyright 2019 Youdao, Inc. All rights reserved.
- * YOUDAO PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
+
 package com.stalary.pf.recruit.exception;
 
 import lombok.extern.slf4j.Slf4j;
