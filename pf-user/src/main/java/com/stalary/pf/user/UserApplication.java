@@ -11,6 +11,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class UserApplication {
 
     public static void main(String[] args) {
+        // 解决es中的netty冲突
+        System.setProperty("es.set.netty.runtime.available.processors", "false");
         SpringApplication.run(UserApplication.class, args);
     }
 

@@ -107,21 +107,35 @@ public class ResumeService extends BaseService<Resume, ResumeRepo> {
      **/
     public List<ResumeRate> batchCalculate(GetResumeRate getResumeRate) {
         List<ResumeRate> ret = new ArrayList<>();
-        getResumeRate.getGetList().forEach(g -> ret.add(new ResumeRate(g.getUserId(), g.getRecruit().getId(), calculate(g.getRecruit(), g.getUserId()))));
+        List<Long> userIdList = getResumeRate.getGetList().stream().map(GetResumeRate.GetRate::getUserId).collect(Collectors.toList());
+        // 批量获取简历
+        Map<Long, Resume> resumeMap = getResumeMap(userIdList);
+        getResumeRate
+                .getGetList()
+                .forEach(g -> ret.add(new ResumeRate(g.getUserId(),
+                        g.getRecruit().getId(),
+                        calculate(g.getRecruit(), resumeMap.get(g.getUserId())))));
         return ret;
+    }
+
+    private Map<Long, Resume> getResumeMap(List<Long> userIdList) {
+        return repo.findByUserIdIn(userIdList).stream().collect(Collectors.toMap(Resume::getUserId, r -> r));
+    }
+
+    public int calculate(Recruit recruit, Long userId) {
+        Resume resume = repo.findByUserId(userId);
+        return calculate(recruit, resume);
     }
 
     /**
      * 简历打分
      *
      */
-    public int calculate(Recruit recruit, Long userId) {
-        List<SkillRule> skillRuleList = recruit.getSkillList();
-        Resume resume = repo.findByUserId(userId);
+    private int calculate(Recruit recruit, Resume resume) {
         if (resume == null) {
-            // 简历不存在的默认打为0分
             return 0;
         }
+        List<SkillRule> skillRuleList = recruit.getSkillList();
         List<Skill> skillList = resume.getSkills();
         // 求出规则表中总和
         int ruleSum = skillRuleList
