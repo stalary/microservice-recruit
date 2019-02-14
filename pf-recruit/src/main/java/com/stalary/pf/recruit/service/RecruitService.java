@@ -106,7 +106,7 @@ public class RecruitService {
                 .collect(Collectors.toSet());
     }
 
-    public List<RecruitEntity> getAllRecruit(String key) {
+    private List<RecruitEntity> getAllRecruit(String key) {
         HashOperations<String, String, String> redisHash = redis.opsForHash();
         Map<String, String> entries = redisHash.entries(Constant.RECRUIT_REDIS_PREFIX);
         if (!entries.isEmpty()) {
@@ -163,7 +163,7 @@ public class RecruitService {
                 .nickname(user.getNickname())
                 .phone(user.getPhone())
                 .username(user.getUsername()).build();
-        CompanyEntity company = companyRepo.findById(recruit.getCompanyId()).orElse(null);
+        CompanyEntity company = getCompanyById(recruit.getCompanyId());
         return new RecruitAndHrAndCompany(recruit, hr, company);
     }
 
@@ -300,7 +300,7 @@ public class RecruitService {
         return companyRepo.findByNameIsLike("%" + key + "%");
     }
 
-    public void cacheCompany(List<CompanyEntity> companyList) {
+    private void cacheCompany(List<CompanyEntity> companyList) {
         if (!companyList.isEmpty()) {
             HashOperations<String, String, String> redisHash = redis.opsForHash();
             Map<String, String> redisMap = companyList
