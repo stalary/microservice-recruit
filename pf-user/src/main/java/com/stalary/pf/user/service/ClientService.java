@@ -104,7 +104,8 @@ public class ClientService {
      */
     public User getUser(String token) {
         String redisKey = Constant.getKey(RedisKeys.USER_TOKEN, token);
-        if (StringUtils.isEmpty(redis.opsForValue().get(redisKey))) {
+        String redisData = redis.opsForValue().get(redisKey);
+        if (StringUtils.isEmpty(redisData)) {
             ResponseMessage<User> response = userCenterClient.getUserInfo(token, projectInfo.getKey());
             if (response.isSuccess()) {
                 User user = response.getData();
@@ -115,11 +116,10 @@ public class ClientService {
             } else {
                 throw new MyException(response.getCode(), response.getMsg());
             }
-        } else {
-            User user = JSONObject.parseObject(redis.opsForValue().get(redisKey), User.class);
-            UserHolder.set(user);
-            return user;
         }
+        User user = JSONObject.parseObject(redisData, User.class);
+        UserHolder.set(user);
+        return user;
     }
 
     /**
@@ -129,12 +129,20 @@ public class ClientService {
         if (projectInfo == null) {
             genProjectInfo();
         }
-        ResponseMessage<User> response = userCenterClient.getUserInfoById(userId, projectInfo.getKey(), projectInfo.getProjectId());
-        if (response.isSuccess()) {
-            return response.getData();
-        } else {
-            throw new MyException(response.getCode(), response.getMsg());
+        String redisKey = Constant.getKey(RedisKeys.USER_ID, String.valueOf(userId));
+        String redisData = redis.opsForValue().get(redisKey);
+        if (StringUtils.isEmpty(redisData)) {
+            ResponseMessage<User> response = userCenterClient.getUserInfoById(userId, projectInfo.getKey(), projectInfo.getProjectId());
+            if (response.isSuccess()) {
+                User user = response.getData();
+                // userId与User映射缓存7天
+                redis.opsForValue().set(redisKey, JSONObject.toJSONString(user), 7, TimeUnit.DAYS);
+                return response.getData();
+            } else {
+                throw new MyException(response.getCode(), response.getMsg());
+            }
         }
+        return JSONObject.parseObject(redisData, User.class);
     }
 
 }
