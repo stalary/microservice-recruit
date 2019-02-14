@@ -22,6 +22,7 @@
 - WebSocket
 - Jpa
 - UserCenter
+- ElasticSearch
 
 # 功能
 - 上传简历||填写简历
