@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author lirongqian
  * @since 2018/12/31
  */
-@FeignClient(name = "message", url = "${message.server}")
+@FeignClient(name = "pf-message")
 @Component
 public interface MessageClient {
 

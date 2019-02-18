@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @description
  * @date 2019/1/1
  */
-@FeignClient(name = "user", url = "${user.server}")
+@FeignClient(name = "pf-user")
 @Component
 public interface UserClient {
 

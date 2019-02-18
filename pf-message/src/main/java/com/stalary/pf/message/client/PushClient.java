@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author lirongqian
  * @since 2018/12/31
  */
-@FeignClient(name = "push", url = "${push.server}")
+@FeignClient(name = "pf-push")
 @Component
 public interface PushClient {
 

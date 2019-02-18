@@ -5,7 +5,6 @@
  */
 package com.stalary.pf.consumer.client;
 
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author lirongqian
  * @since 2018/12/31
  */
-@FeignClient(name = "push", url = "${push.server}")
+@FeignClient(name = "pf-push")
 @Component
 public interface PushClient {
 

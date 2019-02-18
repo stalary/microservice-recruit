@@ -1,6 +1,5 @@
 package com.stalary.pf.user.client;
 
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @description
  * @date 2019/1/1
  */
-@FeignClient(name = "message", url = "${message.server}")
+@FeignClient(name = "pf-message")
 @Component
 public interface MessageClient {
 

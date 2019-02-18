@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @description
  * @date 2018/12/28
  */
-@FeignClient(name = "user", url = "${server.user}")
+@FeignClient(name = "usercenter", url = "${server.user}")
 @Component
 public interface UserCenterClient {
 

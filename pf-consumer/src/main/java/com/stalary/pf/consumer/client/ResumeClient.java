@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @description
  * @date 2018/12/31
  */
-@FeignClient(name = "resume", url = "${resume.server}")
+@FeignClient(name = "pf-resume")
 @Component
 public interface ResumeClient {
 

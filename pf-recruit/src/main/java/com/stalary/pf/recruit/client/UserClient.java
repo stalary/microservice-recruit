@@ -16,7 +16,7 @@ import java.util.List;
  * @description
  * @date 2018/12/31
  */
-@FeignClient(name = "user", url = "${user.server}")
+@FeignClient(name = "pf-user")
 @Component
 public interface UserClient {
 
