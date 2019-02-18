@@ -21,7 +21,7 @@ public class Constant {
 
     public static final String USER_AVATAR = "avatar";
 
-    public static final String PHONE_CODE = "pf_phone_code";
+    public static final String PHONE_CODE = "phone_code";
 
     public static final String RECEIVE_RESUME = "receive_resume";
 

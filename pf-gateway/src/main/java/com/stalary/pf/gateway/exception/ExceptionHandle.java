@@ -115,6 +115,7 @@ public class ExceptionHandle implements ErrorWebExceptionHandler {
          */
         ServerHttpRequest request = exchange.getRequest();
         log.error("[全局异常处理]异常请求路径:{},记录异常信息:{}", request.getPath().pathWithinApplication().value(), ex.getMessage());
+        ex.printStackTrace();
         /**
          * 参考AbstractErrorWebExceptionHandler
          */

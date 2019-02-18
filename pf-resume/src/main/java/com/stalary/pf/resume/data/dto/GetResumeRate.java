@@ -1,9 +1,4 @@
-/**
- * @(#)GetResumeRate.java, 2019-02-14.
- *
- * Copyright 2019 Youdao, Inc. All rights reserved.
- * YOUDAO PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
- */
+
 package com.stalary.pf.resume.data.dto;
 
 import lombok.AllArgsConstructor;

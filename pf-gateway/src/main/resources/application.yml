@@ -7,6 +7,11 @@ spring:
     nacos:
       discovery:
         server-addr: 59.111.95.232:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
   zipkin:
     base-url: http://59.111.95.232:9411
   sleuth:

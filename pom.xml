@@ -74,7 +74,7 @@
                     <baseImage>openjdk:8-jdk-alpine</baseImage>
                     <!-- 设置打包时的tag -->
                     <imageTags>
-                        <imageTag>0.0.6</imageTag>
+                        <imageTag>0.0.5</imageTag>
                         <imageTag>latest</imageTag>
                     </imageTags>
                     <!-- 打包完毕后推送镜像 -->
