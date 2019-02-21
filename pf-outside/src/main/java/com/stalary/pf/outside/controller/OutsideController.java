@@ -62,12 +62,7 @@ public class OutsideController {
             HttpServletRequest request,
             @RequestParam("avatar") MultipartFile avatar) {
         Long userId = UserUtil.getUserId(request);
-        boolean flag = userService.uploadAvatar(userId, avatar);
-        if (flag) {
-            return ResponseMessage.successMessage("头像上传成功");
-        } else {
-            return ResponseMessage.failedMessage("上传头像失败");
-        }
+        return userService.uploadAvatar(userId, avatar);
     }
 
     @PostMapping("/email")

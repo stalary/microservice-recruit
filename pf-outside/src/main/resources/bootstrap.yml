@@ -2,7 +2,6 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 59.111.95.232:8848
+        server-addr: nacos.stalary.com
         file-extension: yml
-        shared-dataids: printlog.yml,server.yml
-        refreshable-dataids: server.yml
+        shared-dataids: printlog.yml

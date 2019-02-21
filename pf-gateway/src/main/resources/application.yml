@@ -6,14 +6,14 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 59.111.95.232:8848
+        server-addr: nacos.stalary.com
     gateway:
       discovery:
         locator:
           enabled: true
           lower-case-service-id: true
   zipkin:
-    base-url: http://59.111.95.232:9411
+    base-url: http://zipkin.stalary.com
   sleuth:
     sampler:
       probability: 1.0

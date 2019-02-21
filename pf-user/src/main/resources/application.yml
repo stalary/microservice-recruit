@@ -4,18 +4,21 @@ server:
   user: http://usercenter.stalary.com
   debug: true
 spring:
+  data:
+    elasticsearch:
+      cluster-name:
   application:
     name: pf-user
   cloud:
     nacos:
       discovery:
-        server-addr: 59.111.95.232:8848
+        server-addr: nacos.stalary.com
     sentinel:
       transport:
         port: 10003
-        dashboard: 59.111.95.232:10002
+        dashboard: sentinel.stalary.com
   zipkin:
-    base-url: http://59.111.95.232:9411/
+    base-url: http://zipkin.stalary.com
   sleuth:
     sampler:
       probability: 1.0
