@@ -2,8 +2,6 @@ server:
   port: 10012
   max-http-header-size: 8192
 spring:
-  application:
-    name: pf-outside
   cloud:
     nacos:
       discovery:
@@ -17,15 +15,6 @@ spring:
   sleuth:
     sampler:
       probability: 1.0
-  redis:
-    host: 47.94.248.38
-    timeout: 5000ms
-    port: 6379
-    lettuce:
-      pool:
-        max-idle: 10
-        max-active: 10
-        min-idle: 1
   mail:
     # 邮箱服务器地址，这里使用的是163.com的邮件服务器
     host: smtp.163.com

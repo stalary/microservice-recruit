@@ -5,6 +5,7 @@
  */
 package com.stalary.pf.push.controller;
 
+import com.stalary.pf.push.service.MessageReceiver;
 import com.stalary.pf.push.service.WebSocketService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,6 @@ public class FacadeController {
     public void sendMessage(
             @RequestParam Long userId,
             @RequestParam String message) {
-        webSocketService.sendMessage(userId, message);
+        webSocketService.broadcast(userId, message);
     }
 }

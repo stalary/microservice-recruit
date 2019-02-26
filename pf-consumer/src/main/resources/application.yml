@@ -2,8 +2,6 @@ server:
   port: 10014
   max-http-header-size: 8192
 spring:
-  application:
-    name: pf-consumer
   cloud:
     nacos:
       discovery:

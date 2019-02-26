@@ -6,3 +6,7 @@ spring:
         file-extension: yml
         shared-dataids: mysql.yml,printlog.yml
         refreshable-dataids: mysql.yml
+  profiles:
+    active: prod
+  application:
+    name: pf-message

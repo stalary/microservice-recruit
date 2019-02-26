@@ -6,3 +6,7 @@ spring:
         file-extension: yml
         shared-dataids: mysql.yml,redis.yml,printlog.yml,es.yml
         refreshable-dataids: mysql.yml,redis.yml,es.yml
+  profiles:
+    active: prod
+  application:
+    name: pf-user

@@ -4,4 +4,9 @@ spring:
       config:
         server-addr: nacos.stalary.com
         file-extension: yml
-        shared-dataids: printlog.yml
+        shared-dataids: printlog.yml,redis.yml
+        refreshable-dataids: redis.yml
+  profiles:
+    active: prod
+  application:
+    name: pf-outside

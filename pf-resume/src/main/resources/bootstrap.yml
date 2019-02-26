@@ -6,3 +6,7 @@ spring:
         file-extension: yml
         shared-dataids: redis.yml,mongo.yml,printlog.yml
         refreshable-dataids: redis.yml,mongo.yml
+  profiles:
+    active: prod
+  application:
+    name: pf-resume

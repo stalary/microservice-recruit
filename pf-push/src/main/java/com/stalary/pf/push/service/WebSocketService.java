@@ -5,12 +5,15 @@
  */
 package com.stalary.pf.push.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import lombok.Data;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.websocket.*;
@@ -29,6 +32,13 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Data
 public class WebSocketService {
+
+    private static StringRedisTemplate redis;
+
+    @Autowired
+    public void setRedis(StringRedisTemplate stringRedisTemplate) {
+        WebSocketService.redis = stringRedisTemplate;
+    }
 
     private static Cache<Long, WebSocketService> sessionCache = CacheBuilder.newBuilder()
             .expireAfterWrite(1, TimeUnit.DAYS)
@@ -54,7 +64,7 @@ public class WebSocketService {
         if (present != null && StringUtils.isNotEmpty(present.getMessage())) {
             present.setSession(this.session);
             this.message = present.getMessage();
-            sendMessage(userId, this.message);
+            broadcast(this.userId, this.message);
         } else {
             sessionCache.put(userId, this);
         }
@@ -108,4 +118,7 @@ public class WebSocketService {
         }
     }
 
+    public void broadcast(Long userId, String message) {
+        redis.convertAndSend(MessageReceiver.WS_CHANNEL, JSONObject.toJSONString(new MessageReceiver.WsMessage(userId, message)));
+    }
 }
