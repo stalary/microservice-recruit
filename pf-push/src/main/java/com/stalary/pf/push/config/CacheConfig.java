@@ -2,7 +2,7 @@
 package com.stalary.pf.push.config;
 
 import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
-import com.stalary.pf.push.service.MessageReceiver;
+import com.stalary.pf.push.service.MessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -86,12 +86,13 @@ public class CacheConfig extends CachingConfigurerSupport {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         // 订阅频道
-        container.addMessageListener(listenerAdapter, new PatternTopic(MessageReceiver.WS_CHANNEL));
+        container.addMessageListener(listenerAdapter, new PatternTopic(MessageService.MESSAGE_CHANNEL));
+        container.addMessageListener(listenerAdapter, new PatternTopic(MessageService.CLOSE_CHANNEL));
         return container;
     }
 
     @Bean
-    MessageListenerAdapter listenerAdapter(MessageReceiver receiver) {
+    MessageListenerAdapter listenerAdapter(MessageService receiver) {
         return new MessageListenerAdapter(receiver, "receiveMessage");
     }
 }

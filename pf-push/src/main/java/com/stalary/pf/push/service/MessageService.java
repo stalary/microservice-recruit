@@ -2,13 +2,11 @@
 package com.stalary.pf.push.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.stalary.pf.push.service.WebSocketService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,27 +19,29 @@ import javax.annotation.Resource;
  */
 @Service
 @Slf4j
-public class MessageReceiver {
+public class MessageService {
 
-    public static String WS_CHANNEL = "ws";
+    public static String MESSAGE_CHANNEL = "message";
+
+    public static String CLOSE_CHANNEL = "close";
 
     @Resource
     private WebSocketService webSocketService;
 
     public void receiveMessage(String message, String channel) {
-        log.info("receive message" + channel + message);
-        if (WS_CHANNEL.equals(channel)) {
-            if (StringUtils.isNotEmpty(message)) {
-                WsMessage wsMessage = JSONObject.parseObject(message, WsMessage.class);
-                webSocketService.sendMessage(wsMessage.getUserId(), wsMessage.getMessage());
-            }
+        log.info("receive message channel {}, message {}", channel, message);
+        if (MESSAGE_CHANNEL.equals(channel)) {
+            WsMessage wsMessage = JSONObject.parseObject(message, WsMessage.class);
+            webSocketService.sendMessage(wsMessage.getUserId(), wsMessage.getMessage());
+        } else if (CLOSE_CHANNEL.equals(channel)) {
+            webSocketService.close(Long.valueOf(message));
         }
     }
 
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class WsMessage {
+    static class WsMessage {
         private Long userId;
 
         private String message;

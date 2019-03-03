@@ -9,12 +9,16 @@ import com.stalary.pf.user.data.dto.*;
 import com.stalary.pf.user.data.entity.UserInfoEntity;
 import com.stalary.pf.user.data.vo.LoginVo;
 import com.stalary.pf.user.data.vo.ResponseMessage;
+import com.stalary.pf.user.holder.IpHolder;
 import com.stalary.pf.user.holder.UserHolder;
 import com.stalary.pf.user.service.ClientService;
 import com.stalary.pf.user.service.UserInfoService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
@@ -55,6 +59,7 @@ public class UserController {
      **/
     @PostMapping("/login")
     public ResponseMessage login(
+            HttpServletRequest request,
             @RequestBody User user) {
         ResponseMessage responseMessage = clientService.postUser(user, Constant.LOGIN);
         if (!responseMessage.isSuccess()) {
@@ -66,6 +71,7 @@ public class UserController {
         messageClient.sendCount(getUser.getId());
         return ResponseMessage.successMessage(loginVo);
     }
+
 
     /**
      * @method hrRegister hr注册

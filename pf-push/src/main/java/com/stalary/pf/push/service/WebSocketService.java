@@ -64,7 +64,7 @@ public class WebSocketService {
         if (present != null && StringUtils.isNotEmpty(present.getMessage())) {
             present.setSession(this.session);
             this.message = present.getMessage();
-            broadcast(this.userId, this.message);
+            messageBroadcast(this.userId, this.message);
         } else {
             sessionCache.put(userId, this);
         }
@@ -74,13 +74,7 @@ public class WebSocketService {
 
     @OnClose
     public void onClose() {
-        log.info("userId: " + this.userId + " webSocket关闭连接");
-        WebSocketService present = sessionCache.getIfPresent(this.userId);
-        if (present != null) {
-            // 退出时清空session
-            present.setSession(null);
-            sessionCache.put(this.userId, present);
-        }
+        closeBroadcast(userId);
     }
 
     @OnError
@@ -97,7 +91,7 @@ public class WebSocketService {
      * 向客户端发送消息
      **/
     @SneakyThrows
-    public void sendMessage(Long userId, String message) {
+    void sendMessage(Long userId, String message) {
         WebSocketService socket = sessionCache.getIfPresent(userId);
         // socket连接时直接发送消息
         if (socket != null && socket.getSession() != null) {
@@ -118,7 +112,24 @@ public class WebSocketService {
         }
     }
 
-    public void broadcast(Long userId, String message) {
-        redis.convertAndSend(MessageReceiver.WS_CHANNEL, JSONObject.toJSONString(new MessageReceiver.WsMessage(userId, message)));
+    public void messageBroadcast(Long userId, String message) {
+        log.info("message broadcast userId {}, message {}", userId, message);
+        redis.convertAndSend(MessageService.MESSAGE_CHANNEL, JSONObject.toJSONString(new MessageService.WsMessage(userId, message)));
     }
+
+    private void closeBroadcast(Long userId) {
+        log.info("close broadcast userId {}", userId);
+        redis.convertAndSend(MessageService.CLOSE_CHANNEL, String.valueOf(userId));
+    }
+
+    void close(Long userId) {
+        log.info("userId: " + userId + " webSocket关闭连接");
+        WebSocketService present = sessionCache.getIfPresent(userId);
+        if (present != null) {
+            // 退出时清空session
+            present.setSession(null);
+            sessionCache.put(userId, present);
+        }
+    }
+
 }

@@ -11,6 +11,7 @@ import com.stalary.pf.user.data.dto.User;
 import com.stalary.pf.user.data.vo.ResponseMessage;
 import com.stalary.pf.user.exception.MyException;
 import com.stalary.pf.user.exception.ResultEnum;
+import com.stalary.pf.user.holder.IpHolder;
 import com.stalary.pf.user.holder.UserHolder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

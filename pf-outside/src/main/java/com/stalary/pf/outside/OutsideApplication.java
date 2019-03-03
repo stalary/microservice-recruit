@@ -18,13 +18,5 @@ public class OutsideApplication {
         SpringApplication.run(OutsideApplication.class, args);
     }
 
-    @RestController
-    class EchoController {
-        @RequestMapping(value = "/echo/{string}", method = RequestMethod.GET)
-        public String echo(@PathVariable String string) {
-            return "Hello Nacos Discovery " + string;
-        }
-    }
-
 }
 
