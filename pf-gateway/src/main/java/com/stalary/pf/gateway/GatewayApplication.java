@@ -5,18 +5,14 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
-import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.codec.ServerCodecConfigurer;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.reactive.result.view.ViewResolver;
-import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.List;

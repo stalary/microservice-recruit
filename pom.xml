@@ -5,6 +5,9 @@
     <properties>
         <spring-boot.version>2.0.7.RELEASE</spring-boot.version>
         <spring-cloud.version>Finchley.SR2</spring-cloud.version>
+        <nacos.version>0.2.1.RELEASE</nacos.version>
+        <sentinel.version>0.2.1.RELEASE</sentinel.version>
+        <feign.version>2.0.2.RELEASE</feign.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <docker.image.prefix>stalary</docker.image.prefix>
@@ -43,6 +46,14 @@
         <!-- 消费服务 -->
         <module>pf-consumer</module>
     </modules>
+
+    <repositories>
+        <repository>
+            <id>aliyun-repository</id>
+            <name>aliyun repository</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -61,8 +72,63 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <!-- spring boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- spring cloud -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
+        <!-- nacos -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>${nacos.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            <version>${nacos.version}</version>
+        </dependency>
+        <!-- 0.8.0的client才支持namespace -->
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>0.8.0</version>
+        </dependency>
+        <!-- feign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>${feign.version}</version>
+        </dependency>
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
@@ -74,7 +140,7 @@
                     <baseImage>openjdk:8-jdk-alpine</baseImage>
                     <!-- 设置打包时的tag -->
                     <imageTags>
-                        <imageTag>0.1.3</imageTag>
+                        <imageTag>0.2.0</imageTag>
                         <imageTag>latest</imageTag>
                     </imageTags>
                     <!-- 打包完毕后推送镜像 -->
@@ -83,7 +149,8 @@
                     <pushImageTag>true</pushImageTag>
                     <!-- 覆盖tag -->
                     <forceTags>true</forceTags>
-                    <entryPoint>["java", "-jar", "-Duser.timezone=GMT+08", "/${project.build.finalName}.jar"]</entryPoint>
+                    <entryPoint>["java", "-jar", "-Duser.timezone=GMT+08", "/${project.build.finalName}.jar"]
+                    </entryPoint>
                     <resources>
                         <resource>
                             <targetPath>/</targetPath>
