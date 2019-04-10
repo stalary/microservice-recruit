@@ -11,8 +11,8 @@
 
 需要自行启动两个本人开源的服务
 
-- lightmq(使用lightmq.stalary.com会导致消息被我的服务消费)
-- usercenter(使用usercenter.stalary.com会导致用户数据存储到我的数据库，数据泄漏)
+- lightmq(使用lightmq.stalary.com会导致消息被我的服务消费) https://github.com/stalary/lightMQ
+- usercenter(使用usercenter.stalary.com会导致用户数据存储到我的数据库，数据泄漏) https://github.com/stalary/UserCenter
 
 本地启动注意切换Nacos的Namespace，否则会出现本地服务与线上服务服务发现不通的情况，具体参照本人的一篇博客https://www.jianshu.com/p/5c84a1d3b2f9
 
