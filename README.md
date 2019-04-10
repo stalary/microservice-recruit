@@ -9,6 +9,11 @@
 
 存储在Nacos中的配置文件在https://github.com/stalary/pf-config
 
+需要自行启动两个本人开源的服务
+
+- lightmq(使用http://lightmq.stalary.com会导致消息被我的服务消费)
+- usercenter(使用http://usercenter.stalary.com会导致用户数据存储到我的数据库，数据泄漏)
+
 # 技术栈
 - Spring-Boot
 - Spring-Cloud
