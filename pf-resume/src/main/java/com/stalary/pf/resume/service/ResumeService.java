@@ -129,7 +129,6 @@ public class ResumeService extends BaseService<Resume, ResumeRepo> {
 
     /**
      * 简历打分
-     *
      */
     private int calculate(Recruit recruit, Resume resume) {
         if (resume == null) {

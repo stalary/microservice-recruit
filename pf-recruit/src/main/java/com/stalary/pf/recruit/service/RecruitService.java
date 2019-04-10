@@ -417,7 +417,12 @@ public class RecruitService {
                 if (!candidateList.isEmpty()) {
                     candidateList.sort(Comparator.comparing(Candidate::getRate).reversed());
                 }
-                ret.add(new RecommendCandidate(title, candidateList));
+                //  只返回前三个
+                if (candidateList.size() > 3) {
+                    ret.add(new RecommendCandidate(title, candidateList.subList(0, 3)));
+                } else {
+                    ret.add(new RecommendCandidate(title, candidateList));
+                }
             }
         });
         return ret;
@@ -428,10 +433,13 @@ public class RecruitService {
      **/
     public List<RecommendRecruit> getRecommendJob(Long userId) {
         UserInfo userInfo = userClient.getUserInfo(userId).getData();
+        // 获取意向职位
         List<String> jobList = str2List(userInfo.getIntentionJob());
+        // 获取意向公司
         List<String> companyList = str2List(userInfo.getIntentionCompany());
+        // 获取匹配的职位
         List<RecruitEntity> recruitList = findRecruitByTitleIn(jobList);
-        // 当推荐的职位所在公司同时为意向公司时，排名考前
+        // 当推荐的职位所在公司同时为意向公司时，排名靠前
         List<RecommendRecruit> firstList = new ArrayList<>();
         List<RecommendRecruit> secondList = new ArrayList<>();
         recruitList.forEach(recruit -> {
@@ -447,6 +455,10 @@ public class RecruitService {
             }
         });
         firstList.addAll(secondList);
+        // 只获取前三个职位
+        if (firstList.size() > 3) {
+            return firstList.subList(0, 3);
+        }
         return firstList;
     }
 

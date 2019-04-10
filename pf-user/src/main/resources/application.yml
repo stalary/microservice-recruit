@@ -2,7 +2,6 @@ server:
   port: 10015
   max-http-header-size: 8192
   user: http://usercenter.stalary.com
-  debug: true
 spring:
   cloud:
     nacos:
@@ -20,12 +19,3 @@ spring:
 logging:
   level:
     com.stalary.pf.user.client: DEBUG # feign日志
-com:
-  stalary:
-    easydoc:
-      path: com.stalary.pf.user
-      contact: stalary@163.com
-      description: pf-user
-      source: false
-      open: true
-      name: pf-user

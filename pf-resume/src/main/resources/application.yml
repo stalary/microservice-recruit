@@ -2,6 +2,10 @@ server:
   port: 10017
   max-http-header-size: 8192
 spring:
+  data:
+    mongodb:
+      username: root
+      password: li197910
   cloud:
     nacos:
       discovery:

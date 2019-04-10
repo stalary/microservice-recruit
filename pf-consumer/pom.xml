@@ -35,19 +35,13 @@
         <dependency>
             <groupId>com.stalary</groupId>
             <artifactId>lightmqclient</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>0.0.1</version>
             <exclusions><!-- 去掉默认配置 -->
                 <exclusion>
                     <groupId>ch.qos.logback</groupId>
                     <artifactId>logback-classic</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>5.1.2.RELEASE</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 

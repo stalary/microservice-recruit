@@ -58,9 +58,7 @@ public class UserController {
      * @return LoginVo 登陆对象
      **/
     @PostMapping("/login")
-    public ResponseMessage login(
-            HttpServletRequest request,
-            @RequestBody User user) {
+    public ResponseMessage login(@RequestBody User user) {
         ResponseMessage responseMessage = clientService.postUser(user, Constant.LOGIN);
         if (!responseMessage.isSuccess()) {
             return responseMessage;

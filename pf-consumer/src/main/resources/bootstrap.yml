@@ -4,7 +4,8 @@ spring:
       config:
         server-addr: nacos.stalary.com
         file-extension: yml
-        shared-dataids: printlog.yml
+        shared-dataids: printlog.yml,lightmq.yml
+        refreshable-dataids: lightmq.yml
   profiles:
     active: prod
   application:

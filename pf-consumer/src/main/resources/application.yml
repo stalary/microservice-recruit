@@ -21,4 +21,4 @@ com:
       order: true
       group: master
       auto: true
-      url: http://120.24.5.178:8001
+      url: lightmq.stalary.com
