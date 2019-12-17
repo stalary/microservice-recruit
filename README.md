@@ -16,11 +16,15 @@
 
 本地启动注意切换Nacos的Namespace，否则会出现本地服务与线上服务服务发现不通的情况，具体参照本人的一篇博客https://www.jianshu.com/p/5c84a1d3b2f9
 
+# 部署方式
+- docker部署：mvn docker:build & java -jar
+- 物理机部署：mvn install & java -jar
+
 # 技术栈
 - Spring-Boot
 - Spring-Cloud
 - Spring-Cloud-Gateway
-- Spring-Cloud-Sleuth
+- Spring-Cloud-Sleuth(对业务侵入性较大，建议替换到 Skywalking )
 - Sentinel
 - Nacos
 - Feign
@@ -39,8 +43,11 @@
 - 上传简历||填写简历
 - 投递简历
 - 发布职位
-- 简历打分
+- 简历打分(基于规则匹配打分)
 - 消息推送
 - 邮件提醒
 - 推荐候选人
 - 推荐职位
+
+# 一些问题与解答
+- lightmq报错：com.stalary.lightmq.url 需要使用http://开头
