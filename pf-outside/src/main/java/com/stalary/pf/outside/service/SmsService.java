@@ -37,8 +37,8 @@ public class SmsService {
      **/
     private static final String PRODUCT = "Dysmsapi";
     private static final String DOMAIN = "dysmsapi.aliyuncs.com";
-    private static final String ACCESS_KEY_ID = "LTAI7Si7prUFjTnd";
-    private static final String ACCESS_KEY_SECRET = "HpNn37b9MRj02dyDIJMnSikmomOGAx";
+    private static final String ACCESS_KEY_ID = "xxx";
+    private static final String ACCESS_KEY_SECRET = "xxx";
 
     private IAcsClient getAcsClient() throws ClientException {
         IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", ACCESS_KEY_ID, ACCESS_KEY_SECRET);
